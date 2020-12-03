@@ -1,0 +1,195 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/starter-template.css}" rel="stylesheet">
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+<link th:href="@{/css/search.css}" rel="stylesheet">
+
+<!-- js -->
+<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- title -->
+<title th:text="${title}"></title>
+</head>
+<body>
+	<!-- fragments/navbar :: menu start -->
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
+		th:replace="fragments/commons :: menu('search')"></nav>
+	<!-- fragments/navbar :: menu end -->
+
+	<!-- page content start -->
+	<!-- 社員検索画面 start -->
+	<div class="container mt-5 p-lg-5">
+		<div class="list">社員情報検索</div>
+		<div class="card-group">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title">検索条件</div>
+				</div>
+				<div class="container-fluid">
+					<form method="post" th:action="@{/search}"
+						th:object="${employeeForm}" class="needs-validation" novalidate>
+						<div class="row">
+							<!-- 社員番号入力 -->
+							<div class="col-8 col-md-6">
+								<div class="form-group">
+									<label for="empIdLine">社員番号</label> <input type="text"
+										name="empId" id="empId" class="form-control input-sm"
+										placeholder="社員番号を入力してください" th:field="*{empId}" required />
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- 改行 -->
+							<div class="w-100 d-none d-md-block"></div>
+							<!-- 入社日入力 -->
+							<div class="col-6 col-md-4">
+								<div class="form-group">
+									<label for="dateEmpLine">入社日</label> <input type="text"
+										class="form-control" id="dateEmp" name="dateEmp"
+										min="1994/09/09" max="2099/12/31" placeholder="yyyy/MM/dd"
+										th:field="*{dateEmp}" required>
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- 改行 -->
+							<div class="w-100 d-none d-md-block"></div>
+							<!-- 氏名 start -->
+							<div class="col-6">
+								<div class="form-group">
+									<label for="empNameLine">氏名</label> <input type="text"
+										name="empName" id="empName" class="form-control input-sm"
+										placeholder="氏名を入力してください" th:field="*{empName}" required />
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- フリガナ start -->
+							<div class="col-6">
+								<div class="form-group">
+									<label for="empKanaLine">フリガナ</label> <input type="text"
+										name="empKana" id="empKana" class="form-control input-sm"
+										placeholder="フリガナを入力してください" th:field="*{empKana}" required />
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- 改行 -->
+							<div class="w-100 d-none d-md-block"></div>
+							<!-- 所属部署 start -->
+							<div class="col-6">
+								<div class="form-group">
+									<label for="affiLine">所属部署</label> <select class="form-control"
+										id="affi" name="affi" th:name="affi" required>
+										<option value="">--所属部署を選択してください--</option>
+										<option th:each="affi : ${affi}" th:value="${affi?.key}"
+											th:utext="${affi?.value}"></option>
+									</select>
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- 役職 start -->
+							<div class="col-6">
+								<div class="form-group">
+									<label for="empTitleLine">役職</label> <select
+										class="form-control" id="empTitle" name="empTitle"
+										th:name="empTitle" required>
+										<option value="">--役職を選択してください--</option>
+										<option th:each="empTitle : ${empTitle}" th:value="${empTitle?.key}"
+											th:utext="${empTitle?.value}"></option>
+									</select>
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- 改行 -->
+							<div class="w-100 d-none d-md-block"></div>
+							<!-- 連絡先 start -->
+							<div class="col-6">
+								<div class="form-group">
+									<label for="contactLine">連絡先</label> <input type="text"
+										class="form-control" name="contact" id="contact"
+										style="ime-mode: disabled" placeholder="連絡先を入力してください"
+										pattern="\d{2,3}-?\d{3,4}-?\d{3,4}" title="電話番号"
+										th:field="*{contact}" required>
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- メールアドレス start -->
+							<div class="col-6">
+								<div class="form-group">
+									<label for="emailLine">メールアドレス</label> <input type="text"
+										class="form-control" name="email" style="ime-mode: disabled"
+										placeholder="メールアドレスを入力してください"
+										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+										title="メールアドレス" th:field="*{email}" required>
+									<div class="invalid-feedback"></div>
+								</div>
+							</div>
+							<!-- button start -->
+							<div class="col">
+								<div class="button">
+									<input type="reset" value="クリア" class="btn btn-light">
+									<input type="submit" value="検索" class="btn btn-dark">
+								</div>
+							</div>
+						</div>
+						<!-- button end -->
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 社員検索画面 end -->
+
+	<!-- 入力条件が満たしていない場合 start -->
+
+	<!-- 入力条件が満たしていない場合 end -->
+
+	<!-- 検索条件が存在しない場合に表示 start -->
+	<p th:text="${error}"></p>
+	<!-- 検索条件が存在しない場合に表示 end -->
+
+	<!-- 検索結果が存在する場合に表示 start -->
+	<!-- 件数を表示 -->
+	<div th:if ="${searchList > 0}" >
+		<p th:if="${count}" th:text="'検索結果：' + ${count} + '件'"></p>
+		<!-- 検索結果の一覧を表示 -->
+		<div class="container mt-5 p-lg-5" th:fragment="list_contents">
+      		<div class="list">社員情報一覧</div>
+      		<table class="table table-bordered" id="list">
+        		<thead class="thead-dark">
+          			<tr>
+			            <th scope="col">社員番号</th>
+			            <th scope="col">入社日</th>
+			            <th scope="col">氏名</th>
+			            <th scope="col">フリガナ</th>
+			            <th scope="col">所属部署</th>
+			            <th scope="col">役職</th>
+			            <th scope="col">連絡先</th>
+			            <th scope="col">メールアドレス</th>
+			          </tr>
+			     </thead>
+			     <tbody>
+			          <tr th:each="searchList : ${searchList}" th:object ="${searchList}">
+			          	<td class="empId" th:text="${searchList.empId}"></td>
+			          	<td class="dateEmp" th:text="${searchList.dateEmp}"></td>
+			            <td class="empName" th:text="${searchList.empName}"></td>
+			            <td class="empKana" th:text="${searchList.empKana}"></td>
+			            <td class="affi" th:text="${searchList.affi}"></td>
+			            <td class="empTitle" th:text="${searchList.empTitle}"></td>
+			            <td class="contact" th:text="${searchList.contact}"></td>
+			            <td class="email" th:text="${searchList.email}"></td>
+			          </tr>
+			     </tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 検索結果が存在する場合に表示 end -->
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+.container{
+    width: 200%;
+    margin-top: 40px;
+}
+
+.table th{
+    text-align: center;
+}
+
+.table td{
+    text-align: center;
+}
+
+.list{
+    color: black;
+    text-align: left;
+    padding: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

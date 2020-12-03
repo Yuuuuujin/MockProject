@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.EmployeeMapper">
+
+    <!-- マッピング定義 -->
+    <resultMap type="com.example.demo.dto.EmployeeDto" id="employee">
+        <id column="emp_id" property="empId"/>
+        <result column="emp_name" property="empName"/>
+        <result column="emp_kana" property="empKana"/>
+        <result column="affiliation" property="affi"/>
+        <result column="emp_title" property="empTitle"/>
+        <result column="contact" property="contact"/>
+        <result column="email" property="email"/>
+        <result column="date_emp" property="dateEmp"/>
+        <result column="reason" property="reason"/>
+        <result column="update_dt" property="updateDt"/>
+        <result column="pic" property="pic"/>
+    </resultMap>
+
+    <!-- １件insert -->
+    <insert id="insert" parameterType="com.example.demo.dto.EmployeeDto">
+        INSERT INTO employee_info (
+            emp_id,
+            emp_name,
+            emp_kana,
+            affiliation,
+            emp_title,
+            contact,
+            email,
+            date_emp)
+        VALUES (
+            #{empId},
+            #{empName},
+            #{empKana},
+            #{affi},
+            #{empTitle},
+            #{contact},
+            #{email},
+            #{dateEmp})
+    </insert>
+
+    <!-- １件検索 -->
+    <select id="selectOne" parameterType="java.lang.String" resultType="com.example.demo.dto.EmployeeDto">
+        SELECT
+            emp_id,
+            emp_name,
+            emp_kana,
+            affiliation,
+            emp_title,
+            contact,
+            email,
+            date_emp
+        FROM
+            employee_info
+        WHERE
+            emp_id = #{empId}
+    </select>
+
+    <!-- 全件検索 -->
+    <select id="selectAll" parameterType="com.example.demo.dto.EmployeeDto" resultMap="employee">
+        SELECT
+            emp_id,
+            emp_name,
+            emp_kana,
+            affiliation,
+            emp_title,
+            contact,
+            email,
+            date_emp
+        FROM
+            employee_info
+    </select>
+
+    <!-- １件更新 -->
+    <update id="update" parameterType="com.example.demo.dto.EmployeeDto">
+        UPDATE employee_info
+        SET
+            emp_name = #{empName},
+            emp_kana = #{empKana},
+            affiliation = #{affi},
+            emp_title = #{empTitle},
+            contact = #{contact},
+            email = #{email},
+            reason = #{reason},
+            update_dt = #{updateDt},
+            pic = #{pic}
+        WHERE emp_id = #{empId}
+    </update>
+
+    <!-- １件削除 -->
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM employee_info WHERE emp_id = #{empId}
+    </delete>
+
+	<!-- キーワード検索 -->
+    <select id="search" parameterType="com.example.demo.dto.EmployeeDto" resultMap="employee">
+    	SELECT * FROM employee_info
+    	 WHERE emp_id = #{empId}
+    	 AND
+    	 <foreach collection="keywords" item="keyword" open="(" close=")" index="i" separator="">
+    	  	<choose>
+    	  		<when test = "i == 0">
+    	  		 	(emp_id LIKE '%${empId}%')
+    	  		</when>
+    	  		<otherwise>
+    	  		  OR (date_emp LIKE '%${dateEmp}%'),
+    	  		  OR (emp_name LIKE '%${empName}%'),
+    	  		  OR (emp_kana LIKE '%${empKana}%'),
+    	  		  OR (affiliation LIKE '%${affi}%'),
+    	  		  OR (emp_title LIKE '%${empTitle}%'),
+    	  		  OR (contact LIKE '%${contact}%'),
+    	  		  OR (email LIKE '%${email}%')
+    	  		</otherwise>
+    	 	</choose>
+    	</foreach>
+	</select>
+
+    <!-- データ件数取得 -->
+    <select id="count" parameterType="com.example.demo.dto.EmployeeDto" resultType="int">
+    	SELECT COUNT(*) FROM employee_info WHERE emp_id = #{empId}
+    </select>
+
+</mapper>

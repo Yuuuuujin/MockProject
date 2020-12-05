@@ -36,7 +36,7 @@
 				</div>
 				<div class="container-fluid">
 					<form method="post" th:action="@{/search}"
-						th:object="${employeeForm}" class="needs-validation" novalidate>
+						th:object="${searchForm}" class="needs-validation" novalidate>
 						<div class="row">
 							<!-- 社員番号入力 -->
 							<div class="col-8 col-md-6">
@@ -151,39 +151,41 @@
 	<!-- 入力条件が満たしていない場合 end -->
 
 	<!-- 検索条件が存在しない場合に表示 start -->
-	<p th:text="${error}"></p>
+	<div th:if ="${searchList == 0}" >
+		<p th:text="${error}"></p>
+	</div>
 	<!-- 検索条件が存在しない場合に表示 end -->
 
 	<!-- 検索結果が存在する場合に表示 start -->
 	<!-- 件数を表示 -->
-	<div th:if ="${searchList > 0}" >
+	<div th:if ="${searchList != 0}" >
 		<p th:if="${count}" th:text="'検索結果：' + ${count} + '件'"></p>
 		<!-- 検索結果の一覧を表示 -->
-		<div class="container mt-5 p-lg-5" th:fragment="list_contents">
+		<div class="container mt-5 p-lg-5">
       		<div class="list">社員情報一覧</div>
-      		<table class="table table-bordered" id="list">
+      		<table class="table table-bordered">
         		<thead class="thead-dark">
           			<tr>
 			            <th scope="col">社員番号</th>
-			            <th scope="col">入社日</th>
 			            <th scope="col">氏名</th>
 			            <th scope="col">フリガナ</th>
 			            <th scope="col">所属部署</th>
 			            <th scope="col">役職</th>
 			            <th scope="col">連絡先</th>
 			            <th scope="col">メールアドレス</th>
+			            <th scope="col">入社日</th>
 			          </tr>
 			     </thead>
 			     <tbody>
 			          <tr th:each="searchList : ${searchList}" th:object ="${searchList}">
 			          	<td class="empId" th:text="${searchList.empId}"></td>
-			          	<td class="dateEmp" th:text="${searchList.dateEmp}"></td>
 			            <td class="empName" th:text="${searchList.empName}"></td>
 			            <td class="empKana" th:text="${searchList.empKana}"></td>
 			            <td class="affi" th:text="${searchList.affi}"></td>
 			            <td class="empTitle" th:text="${searchList.empTitle}"></td>
 			            <td class="contact" th:text="${searchList.contact}"></td>
 			            <td class="email" th:text="${searchList.email}"></td>
+			          	<td class="dateEmp" th:text="${searchList.dateEmp}"></td>
 			          </tr>
 			     </tbody>
 			</table>

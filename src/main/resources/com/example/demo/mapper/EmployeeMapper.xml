@@ -51,7 +51,10 @@
             emp_title,
             contact,
             email,
-            date_emp
+            date_emp,
+            reason,
+            update_dt,
+            pic
         FROM
             employee_info
         WHERE
@@ -75,51 +78,62 @@
 
     <!-- １件更新 -->
     <update id="update" parameterType="com.example.demo.dto.EmployeeDto">
-        UPDATE employee_info
+        UPDATE
+        	employee_info
         SET
+        	emp_id = #{empId},
             emp_name = #{empName},
             emp_kana = #{empKana},
             affiliation = #{affi},
             emp_title = #{empTitle},
             contact = #{contact},
             email = #{email},
+            date_emp = #{dateEmp},
             reason = #{reason},
             update_dt = #{updateDt},
             pic = #{pic}
-        WHERE emp_id = #{empId}
+        WHERE
+        	emp_id = #{empId}
     </update>
 
     <!-- １件削除 -->
     <delete id="delete" parameterType="java.lang.String">
-        DELETE FROM employee_info WHERE emp_id = #{empId}
+        DELETE
+        FROM
+        	employee_info
+        WHERE
+        	emp_id = #{empId}
     </delete>
 
 	<!-- キーワード検索 -->
-    <select id="search" parameterType="com.example.demo.dto.EmployeeDto" resultMap="employee">
-    	SELECT * FROM employee_info
-    	 WHERE emp_id = #{empId}
-    	 AND
-    	 <foreach collection="keywords" item="keyword" open="(" close=")" index="i" separator="">
-    	  	<choose>
-    	  		<when test = "i == 0">
-    	  		 	(emp_id LIKE '%${empId}%')
-    	  		</when>
-    	  		<otherwise>
-    	  		  OR (date_emp LIKE '%${dateEmp}%'),
-    	  		  OR (emp_name LIKE '%${empName}%'),
-    	  		  OR (emp_kana LIKE '%${empKana}%'),
-    	  		  OR (affiliation LIKE '%${affi}%'),
-    	  		  OR (emp_title LIKE '%${empTitle}%'),
-    	  		  OR (contact LIKE '%${contact}%'),
-    	  		  OR (email LIKE '%${email}%')
-    	  		</otherwise>
-    	 	</choose>
-    	</foreach>
+    <select id="search" parameterType="java.lang.String" resultType="com.example.demo.dto.EmployeeDto">
+        SELECT
+            emp_id,
+            emp_name,
+            emp_kana,
+            affiliation,
+            emp_title,
+            contact,
+            email,
+            date_emp
+        FROM
+            employee_info
+    	<where>
+	    	<if test="empId != null">
+	    		emp_id = #{empId}
+	    	</if>
+    	</where>
 	</select>
 
     <!-- データ件数取得 -->
     <select id="count" parameterType="com.example.demo.dto.EmployeeDto" resultType="int">
-    	SELECT COUNT(*) FROM employee_info WHERE emp_id = #{empId}
+    	SELECT
+    	COUNT
+    		(*)
+    	FROM
+    		employee_info
+    	WHERE
+    		emp_id = #{empId}
     </select>
 
 </mapper>

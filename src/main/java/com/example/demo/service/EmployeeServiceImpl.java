@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeDto selectOne(EmployeeDto empDto){
+	public EmployeeDto selectOne(String empId){
 
-		return empMapper.selectOne(empDto);
+		return empMapper.selectOne(empId);
 	}
 
 	@Override
@@ -52,10 +51,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<EmployeeDto> search(String empId, Date dateEmp, String empName, String empKana, String affi,
-			String empTitle, String contact, String email) {
+	public List<EmployeeDto> search(String empId) {
 
-		return empMapper.search(empId, dateEmp, empName, empKana, affi, empTitle, contact, email);
+		return empMapper.search(empId);
 	}
 
 }

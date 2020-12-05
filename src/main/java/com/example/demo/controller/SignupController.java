@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.domain.EmployeeForm;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
+/**
+ * 社員情報登録画面
+ * @version 1.0
+ * @author YUJIN LEE
+ */
 @Controller
-@RequestMapping("/signup")
 public class SignupController {
 
 	@Autowired
@@ -76,7 +80,7 @@ public class SignupController {
 	 * @param model
 	 * @return employee/signup
 	 */
-	@GetMapping
+	@GetMapping("/signup")
 	public String getSignUp(@ModelAttribute EmployeeForm form,
 			Model model) {
 
@@ -92,6 +96,16 @@ public class SignupController {
 		// 役職セレクタ用のMapをModelに登録
 		model.addAttribute("empTitle", empTitle);
 
+        // コンテンツ部分に社員情報一覧を表示するための文字列を登録
+        model.addAttribute("contents", "employee/signup :: empList_contents");
+        // 社員情報一覧の生成
+        List<EmployeeDto> empList = empService.selectAll();
+        // Modelに社員情報リストを登録
+        model.addAttribute("empList", empList);
+        // データ件数を取得
+        int count = empService.count();
+        model.addAttribute("empListCnt", count);
+
 		return "employee/signup";
 
 	}
@@ -103,7 +117,7 @@ public class SignupController {
 	 * @param model
 	 * @return redirect:/signup
 	 */
-	@PostMapping
+	@PostMapping("/signup")
 	public String postSignUp(@ModelAttribute EmployeeForm form,
 			BindingResult bindingResult,
 			Model model) {
@@ -143,116 +157,8 @@ public class SignupController {
 
 		// signup.htmlにリダイレクト
 		return "redirect:/signup";
-	}
 
-//	@GetMapping("/signup/{id:.+}")
-//	public String getEmpEdit(@ModelAttribute EmployeeForm form,
-//			Model model,
-//			@PathVariable("id") String empId) {
-//
-//		// 社員番号確認（デバッグ）
-//		System.out.println("empId = " + empId);
-//
-//		// コンテンツ部分に社員情報を表示するために文字列を登録
-//		model.addAttribute("contents", "employee/signup :: empEdit_contents");
-//
-//		// 所属部署用セレクタの初期化
-//		affi = initAffiSelect();
-//
-//		// 役職用セレクタの初期化
-//		empTitle = initTitleSelect();
-//
-//		// 社員番号のチェック
-//		if(empId != null && empId.length() > 0) {
-//
-//			// 社員情報を取得
-//			EmployeeDto empDto = empService.selectOne(empId);
-//
-//			// EmployeeDtoクラスをフォームクラスに変換
-//			// 社員番号
-//			form.setEmpId(empDto.getEmpId());
-//			// 氏名
-//			form.setEmpName(empDto.getEmpName());
-//			// フリガナ
-//			form.setEmpKana(empDto.getEmpKana());
-//			// 所属部署
-//			form.setAffi(empDto.getAffi());
-//			// 役職
-//			form.setEmpTitle(empDto.getEmpTitle());
-//			// 連絡先
-//			form.setContact(empDto.getContact());
-//			// メールアドレス
-//			form.setEmail(empDto.getEmail());
-//			// 入社日
-//			form.setDateEmp(empDto.getDateEmp());
-//			// 内容変更理由
-//			form.setReason(empDto.getReason());
-//			// 変更日
-//			form.setUpdateDt(empDto.getUpdateDt());
-//			// 担当者名
-//			form.setPic(empDto.getPic());
-//
-//			// Modelに登録
-//			model.addAttribute("employeeForm", form);
-//		}
-//
-//		return "employee/signup";
-//	}
-//
-//	// 社員情報更新用処理
-//	@PostMapping(value = "/signup", params = "update")
-//	public String postEmpEditUpdate(@ModelAttribute EmployeeForm form,
-//			Model model) {
-//
-//		System.out.println("保存ボタンの処理");
-//
-//		// EmployeeDtoインスタンスの生成
-//		EmployeeDto empDto = new EmployeeDto();
-//
-//		// フォームクラスをEmployeeDtoクラスに変換
-//		// 社員番号
-//		empDto.setEmpId(form.getEmpId());
-//		// 氏名
-//		empDto.setEmpName(form.getEmpName());
-//		// フリガナ
-//		empDto.setEmpKana(form.getEmpKana());
-//		// 所属部署
-//		empDto.setAffi(form.getAffi());
-//		// 役職
-//		empDto.setEmpTitle(form.getEmpTitle());
-//		// 連絡先
-//		empDto.setContact(form.getContact());
-//		// メールアドレス
-//		empDto.setEmail(form.getEmail());
-//		// 入社日
-//		empDto.setDateEmp(form.getDateEmp());
-//		// 内容変更理由
-//		empDto.setReason(form.getReason());
-//		// 変更日
-//		empDto.setUpdateDt(form.getUpdateDt());
-//		// 担当者名
-//		empDto.setPic(form.getPic());
-//
-//		try {
-//
-//			// 更新（保存）実行
-//			boolean result = empService.update(empDto);
-//
-//			if(result == true) {
-//				model.addAttribute("result", "更新成功");
-//			} else {
-//				model.addAttribute("result", "更新失敗");
-//			}
-//		} catch(DataAccessException e) {
-//
-//			model.addAttribute("result","更新失敗(トランザクションテスト)");
-//
-//		}
-//
-//        // 社員情報登録一覧を表示
-//        return getEmpDetail(model);
-//
-//	}
+	}
 
 	/**
 	 * DataAccessException発生時の処理メソッド

@@ -1,6 +1,5 @@
 package com.example.demo.mapper;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -23,7 +22,7 @@ public interface EmployeeMapper {
 	public boolean insert (EmployeeDto empDto);
 
 	// 1件検索用メソッド
-	public EmployeeDto selectOne(EmployeeDto empDto);
+	public EmployeeDto selectOne(String empId);
 
 	// 全件検索用メソッド
 	public List<EmployeeDto> selectAll();
@@ -36,12 +35,5 @@ public interface EmployeeMapper {
 
 	// キーワードで検索
 	public List<EmployeeDto> search (
-			@Param("empId") String empId,
-			@Param("dateEmp")Date dateEmp,
-			@Param("empName") String empName,
-			@Param("empKana") String empKana,
-			@Param("affi") String affi,
-			@Param("empTitle") String empTitle,
-			@Param("contact") String contact,
-			@Param("email") String email);
+			@Param("empId") String empId);
 }

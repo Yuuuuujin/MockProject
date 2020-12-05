@@ -4,13 +4,8 @@ import java.util.Date;
 
 import lombok.Data;
 
-/**
- * 社員情報検索 form
- * @version 1.0
- * @author upl_member
- */
 @Data
-public class SearchForm {
+public class UpdateForm {
 
 	// 社員番号
 	private String empId;
@@ -35,5 +30,15 @@ public class SearchForm {
 
 	// 入社日
 	private Date dateEmp;
+
+	// 内容変更理由
+	private String reason;
+
+	// 変更日
+
+	private Date updateDt;
+
+	// 担当者名
+	private String pic;
 
 }

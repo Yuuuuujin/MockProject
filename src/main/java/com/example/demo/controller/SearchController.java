@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.domain.EmployeeForm;
+import com.example.demo.domain.SearchForm;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
-import com.example.demo.util.CheckUtil;
 
 /**
  * 社員情報検索 Controller
@@ -83,7 +82,7 @@ public class SearchController {
 	 * @return employee/search
 	 */
 	@GetMapping
-	public String getSearch(@ModelAttribute EmployeeForm form,
+	public String getSearch(@ModelAttribute SearchForm form,
 			Model model) {
 
 		// 社員情報検索画面
@@ -103,55 +102,23 @@ public class SearchController {
 	}
 
 	@PostMapping
-	public String postSearch(@ModelAttribute EmployeeForm form,
+	public String postSearch(@ModelAttribute SearchForm form,
 			Model model) {
 
-		// 検索条件
-		// 社員番号
-		if(!form.getEmpId().matches(CheckUtil.regex_empId)){
-			model.addAttribute("error", CheckUtil.empIdMsg);
-		// 入社日
-		} else if(!form.getDateEmp().matches(CheckUtil.regex_dateEmp)) {
-			model.addAttribute("error", CheckUtil.dateEmpMsg);
-		// 氏名
-		} else if(!form.getEmpName().matches(CheckUtil.regex_empName)) {
-			model.addAttribute("error", CheckUtil.empNameMsg);
-		// フリガナ
-		} else if(!form.getEmpKana().matches(CheckUtil.regex_empKana)) {
-			model.addAttribute("error", CheckUtil.empKanaMsg);
-		// 所属部署
-		} else if(form.getAffi() == "") {
-			model.addAttribute("error", CheckUtil.affiMsg);
-		// 役職
-		} else if(form.getEmpTitle() == "") {
-			model.addAttribute("error", CheckUtil.empTitleMsg);
-		// 連絡先
-		} else if(!form.getContact().matches(CheckUtil.regex_contact)) {
-			model.addAttribute("error", CheckUtil.contactMsg);
-		// メールアドレス
-		} else if(!form.getEmail().matches(CheckUtil.regex_email)) {
-			model.addAttribute("error", CheckUtil.emailMsg);
+    	String empId = form.getEmpId();
 
-			return "redirect:/search";
+		// 検索条件に問題がなければ社員情報を検索してListに詰める
+    	List<EmployeeDto> searchList = empService.search(empId);
 
-		} else {
+    	// 検索結果Listをmodelに渡す
+        model.addAttribute("searchList", searchList);
+		// 社員情報検索画面
+		model.addAttribute("title", "社員情報検索画面");
 
-		// 社員情報を検索する
-		List<EmployeeDto> searchList =
-				empService.search(form.getEmpId(), form.getDateEmp(), form.getEmpName(), form.getEmpKana(),
-						form.getAffi(), form.getEmpTitle(), form.getContact(), form.getEmail());
-		// 検索結果をModelに登録
-		model.addAttribute("searchList" , searchList);
-	    //データ件数を取得
-        model.addAttribute("list", searchList.size());
+        return "employee/search";
 
-		return "redirect:/search";
+    }
 
-		}
-
-		return "redirect:/search";
-
-	}
 
 	/**
 	 * DataAccessException発生時の処理メソッド

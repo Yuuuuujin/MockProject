@@ -9,7 +9,7 @@
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 <link th:href="@{/css/starter-template.css}" rel="stylesheet">
 <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
-<link th:href="@{/css/signup.css}" rel="stylesheet">
+<link th:href="@{/css/edit.css}" rel="stylesheet">
 
 <!-- js -->
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
@@ -30,7 +30,7 @@
 		<div class="col-sm-3">
 			<div class="container mt-5 p-lg-5">
 				<div class="list">社員情報変更</div>
-					<form th:method="put" th:action="@{/edit/{empId}(empId=*{empId})}" th:object="${updateForm}">
+					<form method="post" th:action="@{/edit}" th:object="${employeeForm}">
 						<table class="table table-bordered">
 							<tbody>
 								<!-- 社員番号入力 -->
@@ -40,8 +40,7 @@
 									</th>
 									<td>
 									    <div class="form-group">
-											<input type="text" class="form-control"
-												placeholder="社員番号を入力してください" th:field="*{empId}" readonly="readonly">
+											<input type="text" class="form-control"	placeholder="社員番号を入力してください" th:field="*{empId}" readonly>
 											<div class="text-danger" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></div>
                                 		</div>
 									</td>
@@ -146,58 +145,19 @@
 									</th>
 									<td>
 										<div class="form-group">
-											<input type="text" class="form-control"placeholder="yyyy/MM/dd" th:field="*{dateEmp}" readonly="readonly">
+											<input type="text" class="form-control"placeholder="yyyy-MM-dd" th:field="*{dateEmp}" readonly>
 											<div class="text-danger" th:if="${#fields.hasErrors('dateEmp')}" th:errors="*{dateEmp}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 内容変更理由入力 -->
-								<tr>
-									<th scope="row">
-										<label for="reasonLine">内容変更理由</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="内容変更理由を入力してください" th:field="*{reason}">
-											<div class="text-danger" th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 変更日入力 -->
-								<tr>
-									<th scope="row">
-										<label for="updateDtLine">変更日</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="yyyy/MM/dd" th:field="*{updateDt}">
-											<div class="text-danger" th:if="${#fields.hasErrors('updateDt')}" th:errors="*{updateDt}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 担当者名入力 -->
-								<tr>
-									<th scope="row">
-										<label for="picLine">担当者名</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="担当者名を入力してください" th:field="*{pic}">
-											<div class="text-danger" th:if="${#fields.hasErrors('pic')}" th:errors="*{pic}"></div>
 										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-
 						<!--ボタンブロック-->
 						<div class="form-group row">
-			                   <button type="button" class="btn btn-secondary" name="cancel">キャンセル</button>
-			                   <button type="submit" class="btn btn-primary" name="update">更新</button>
-			            </div>
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-primary btn-block" name="update">更新</button>
+							</div>
+						</div>
 					</form>
 			</div>
 		</div>

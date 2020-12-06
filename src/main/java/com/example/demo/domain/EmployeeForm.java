@@ -1,7 +1,5 @@
 package com.example.demo.domain;
 
-import java.util.Date;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -16,6 +14,7 @@ import lombok.Data;
 
 /**
  * 社員情報登録 form
+ * 社員情報変更 form
  * @version 1.0
  * @author YUJIN LEE
  */
@@ -56,31 +55,12 @@ public class EmployeeForm {
 
 	// メールアドレス
 	@NotBlank(groups = ValidGroup1.class, message = "{require_check}")
-	@Email
-    @Length(groups = ValidGroup2.class, message = "{email_length_check}")
-    @Pattern(regexp = "^([a-zA-Z0-9])+([a-zA-Z0-9\\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\\._-]+)+$", groups = ValidGroup3.class, message = "{email_pattern_check}")
+	@Email(groups = ValidGroup3.class, message = "{email_check}")
 	private String email;
 
 	// 入社日
 	@NotBlank(groups = ValidGroup1.class, message = "{require_check}")
-	@Pattern(regexp = "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",groups = ValidGroup3.class, message = "{dateEmp_pattern_check}")
-	private Date dateEmp;
-//
-//	// 内容変更理由
-//	@NotBlank(groups = ValidGroup1.class, message = "{require_check}")
-//    @Length(groups = ValidGroup2.class, message = "{empId_length_check}")
-//    @Pattern(regexp = "^[a-zA-Z0-9]+$", groups = ValidGroup3.class, message = "{empId_pattern_check}")
-//	private String reason;
-//
-//	// 変更日
-//	@NotBlank(groups = ValidGroup1.class, message = "{require_check}")
-//	@Pattern(regexp = "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",groups = ValidGroup3.class, message = "{updateDt_pattern_check}")
-//	private Date updateDt;
-//
-//	// 担当者名
-//	@NotBlank(groups = ValidGroup1.class, message = "{require_check}")
-//    @Length(groups = ValidGroup2.class, message = "{empId_length_check}")
-//    @Pattern(regexp = "^[^-~｡-ﾟ]*$", groups = ValidGroup3.class, message = "{empId_pattern_check}")
-//	private String pic;
+	@Pattern(regexp = "^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$", groups = ValidGroup3.class, message = "{dateEmp_pattern_check}")
+	private String dateEmp;
 
 }

@@ -26,7 +26,7 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	compile group: 'org.aspectj', name: 'aspectjtools', version: '1.9.2'
-	compile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2.0.redhat-1'
+	compile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
 	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
     compile group: 'com.github.mygreen', name: 'super-csv-annotation', version: '2.2'
     compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.6.Final'

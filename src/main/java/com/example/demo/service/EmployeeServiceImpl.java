@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.SearchForm;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.mapper.EmployeeMapper;
-@Transactional
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -52,9 +51,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<EmployeeDto> search(String empId) {
-
-		return empMapper.search(empId);
+	public List<EmployeeDto> search(SearchForm form) {
+		// TODO 自動生成されたメソッド・スタブ
+		return empMapper.search(form);
 	}
 
 }

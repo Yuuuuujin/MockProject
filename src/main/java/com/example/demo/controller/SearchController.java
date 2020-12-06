@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -102,13 +103,12 @@ public class SearchController {
 	}
 
 	@PostMapping
-	public String postSearch(@ModelAttribute SearchForm form,
-			Model model) {
-
-    	String empId = form.getEmpId();
+	public String postSearch(SearchForm form,
+			Model model,
+			BindingResult result) {
 
 		// 検索条件に問題がなければ社員情報を検索してListに詰める
-    	List<EmployeeDto> searchList = empService.search(empId);
+    	List<EmployeeDto> searchList = empService.search(form);
 
     	// 検索結果Listをmodelに渡す
         model.addAttribute("searchList", searchList);

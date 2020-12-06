@@ -40,8 +40,7 @@
 									</th>
 									<td>
 									    <div class="form-group">
-											<input type="text" class="form-control"
-												placeholder="社員番号を入力してください" th:field="*{empId}" readonly="readonly">
+											<input type="text" class="form-control"	placeholder="社員番号を入力してください" th:field="*{empId}">
 											<div class="text-danger" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></div>
                                 		</div>
 									</td>
@@ -146,7 +145,7 @@
 									</th>
 									<td>
 										<div class="form-group">
-											<input type="text" class="form-control"placeholder="yyyy/MM/dd" th:field="*{dateEmp}" readonly="readonly">
+											<input type="text" class="form-control"placeholder="yyyy-MM-dd" th:field="*{dateEmp}">
 											<div class="text-danger" th:if="${#fields.hasErrors('dateEmp')}" th:errors="*{dateEmp}"></div>
 										</div>
 									</td>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.demo.domain.SearchForm;
 import com.example.demo.dto.EmployeeDto;
 
 /**
@@ -35,5 +36,5 @@ public interface EmployeeMapper {
 
 	// キーワードで検索
 	public List<EmployeeDto> search (
-			@Param("empId") String empId);
+			@Param("searchForm") SearchForm form);
 }

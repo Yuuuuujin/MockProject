@@ -20,6 +20,12 @@ import com.example.demo.domain.EmployeeForm;
 import com.example.demo.domain.valid.GroupOrder;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
+
+/**
+ * 社員情報登録画面 Controller
+ * @version 1.0
+ * @author YUJIN LEE
+ */
 @Controller
 public class SignupController {
 
@@ -119,19 +125,6 @@ public class SignupController {
 
         // 入力チェックに引っかかった場合、社員情報登録画面に戻る
         if (result.hasErrors()) {
-//
-//			// 入力した内容を保持するためにmodeに値を渡す
-//			model.addAttribute("empId", form.getEmpId());
-//			model.addAttribute("empName", form.getEmpName());
-//			model.addAttribute("empKana", form.getEmpKana());
-//			model.addAttribute("affi", form.getAffi());
-//			model.addAttribute("empTitle", form.getEmpTitle());
-//			model.addAttribute("contact", form.getContact());
-//			model.addAttribute("email", form.getEmail());
-//			model.addAttribute("dateEmp", form.getDateEmp());
-//
-//			model.addAttribute("title", "社員登録");
-
 
             // GETリクエスト用のメソッドを呼び出して、社員情報登録画面に戻ります
             return getSignUp(form, model);

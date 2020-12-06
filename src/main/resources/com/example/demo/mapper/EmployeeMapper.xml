@@ -42,27 +42,7 @@
     </insert>
 
     <!-- １件検索 -->
-    <select id="selectOne" parameterType="java.lang.String" resultType="com.example.demo.dto.EmployeeDto">
-        SELECT
-            emp_id,
-            emp_name,
-            emp_kana,
-            affiliation,
-            emp_title,
-            contact,
-            email,
-            date_emp,
-            reason,
-            update_dt,
-            pic
-        FROM
-            employee_info
-        WHERE
-            emp_id = #{empId}
-    </select>
-
-    <!-- 全件検索 -->
-    <select id="selectAll" parameterType="com.example.demo.dto.EmployeeDto" resultMap="employee">
+    <select id="selectOne" resultMap="employee">
         SELECT
             emp_id,
             emp_name,
@@ -72,6 +52,16 @@
             contact,
             email,
             date_emp
+        FROM
+            employee_info
+        WHERE
+            emp_id = #{empId}
+    </select>
+
+    <!-- 全件検索 -->
+    <select id="selectAll" resultMap="employee">
+        SELECT
+			*
         FROM
             employee_info
     </select>
@@ -88,10 +78,7 @@
             emp_title = #{empTitle},
             contact = #{contact},
             email = #{email},
-            date_emp = #{dateEmp},
-            reason = #{reason},
-            update_dt = #{updateDt},
-            pic = #{pic}
+            date_emp = #{dateEmp}
         WHERE
         	emp_id = #{empId}
     </update>
@@ -106,7 +93,7 @@
     </delete>
 
 	<!-- キーワード検索 -->
-    <select id="search" parameterType="java.lang.String" resultType="com.example.demo.dto.EmployeeDto">
+    <select id="search" resultMap="employee">
         SELECT
             emp_id,
             emp_name,
@@ -118,11 +105,32 @@
             date_emp
         FROM
             employee_info
-    	<where>
-	    	<if test="empId != null">
-	    		emp_id = #{empId}
+        WHERE
+            emp_id = #{empId}
+	    	<if test="searchForm.empId != null and searchForm.empId != ''">
+	    		AND emp_id like '%' || #{searchForm.empId} || '%'
 	    	</if>
-    	</where>
+	    	<if test="searchForm.empName != null and searchForm.empName != ''">
+	    		AND emp_name like '%' || #{searchForm.empName} || '%'
+	    	</if>
+	    	<if test="searchForm.empKana != null and searchForm.empKana != ''">
+	    		AND emp_kana like '%' || #{searchForm.empKana} || '%'
+	    	</if>
+	    	<if test="searchForm.affi != null and searchForm.affi != ''">
+	    		AND affiliation = #{searchForm.affi}
+	    	</if>
+	    	<if test="searchForm.empTitle != null and searchForm.empTitle != ''">
+	    		AND emp_title = #{searchForm.empTitle}
+	    	</if>
+	    	<if test="searchForm.contact != null and searchForm.contact != ''">
+	    		AND contact like '%' || #{searchForm.contact} || '%'
+	    	</if>
+	    	<if test="searchForm.email != null and searchForm.email != ''">
+	    		AND email like '%' || #{searchForm.email} || '%'
+	    	</if>
+	    	<if test="searchForm.dateEmp != null and searchForm.dateEmp != ''">
+	    		AND date_emp like '%' || #{searchForm.dateEmp} || '%'
+	    	</if>
 	</select>
 
     <!-- データ件数取得 -->

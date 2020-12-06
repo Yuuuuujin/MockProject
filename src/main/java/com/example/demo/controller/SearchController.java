@@ -119,7 +119,6 @@ public class SearchController {
 
     }
 
-
 	/**
 	 * DataAccessException発生時の処理メソッド
 	 * @param e

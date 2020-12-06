@@ -10,20 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.EmployeeForm;
+import com.example.demo.domain.valid.GroupOrder;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
-
-/**
- * 社員情報登録画面
- * @version 1.0
- * @author YUJIN LEE
- */
 @Controller
 public class SignupController {
 
@@ -73,7 +69,6 @@ public class SignupController {
 
 		return empTitle;
 	}
-
 	/**
 	 * 社員情報登録画面のGET用コントローラー
 	 * @param form
@@ -118,9 +113,30 @@ public class SignupController {
 	 * @return redirect:/signup
 	 */
 	@PostMapping("/signup")
-	public String postSignUp(@ModelAttribute EmployeeForm form,
-			BindingResult bindingResult,
+	public String postSignUp(@ModelAttribute @Validated(GroupOrder.class)EmployeeForm form,
+			BindingResult result,
 			Model model) {
+
+        // 入力チェックに引っかかった場合、社員情報登録画面に戻る
+        if (result.hasErrors()) {
+//
+//			// 入力した内容を保持するためにmodeに値を渡す
+//			model.addAttribute("empId", form.getEmpId());
+//			model.addAttribute("empName", form.getEmpName());
+//			model.addAttribute("empKana", form.getEmpKana());
+//			model.addAttribute("affi", form.getAffi());
+//			model.addAttribute("empTitle", form.getEmpTitle());
+//			model.addAttribute("contact", form.getContact());
+//			model.addAttribute("email", form.getEmail());
+//			model.addAttribute("dateEmp", form.getDateEmp());
+//
+//			model.addAttribute("title", "社員登録");
+
+
+            // GETリクエスト用のメソッドを呼び出して、社員情報登録画面に戻ります
+            return getSignUp(form, model);
+
+        }
 
 		// formの中身をコンソールに出して確認する
 		System.out.println(form);
@@ -146,10 +162,10 @@ public class SignupController {
 		empDto.setDateEmp(form.getDateEmp());
 
 		// 社員登録処理
-		boolean result = empService.insert(empDto);
+		boolean insertResult = empService.insert(empDto);
 
 		// 社員登録結果判定
-		if(result == true) {
+		if(insertResult == true) {
 			System.out.println("insert成功");
 		} else {
 			System.out.println("insert失敗");
@@ -160,47 +176,40 @@ public class SignupController {
 
 	}
 
-	/**
-	 * DataAccessException発生時の処理メソッド
-	 * @param e
-	 * @param model
-	 * @return error
-	 */
-	@ExceptionHandler(DataAccessException.class)
-	public String dataAccessExceptionHandler(DataAccessException e, Model model) {
+    /**
+     * DataAccessException発生時の処理メソッド.
+     */
+    @ExceptionHandler(DataAccessException.class)
+    public String dataAccessExceptionHandler(DataAccessException e, Model model) {
 
-		// 例外クラスのメッセージをModelに登録
-		model.addAttribute("error","内部サーバーエラー（DB）：ExceptionHandler");
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("error", "内部サーバーエラー（DB）：ExceptionHandler");
 
-		// 例外クラスのメッセージをModelに登録
-		model.addAttribute("message","SignupControllerでDataAccessExceptionが発生しました");
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("message", "SignupControllerでDataAccessExceptionが発生しました");
 
-		// HTTPのエラーコード（500）をModelに登録
-		model.addAttribute("status",HttpStatus.INTERNAL_SERVER_ERROR);
+        // HTTPのエラーコード（500）をModelに登録
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
-		return "error";
-	}
+        return "error";
+    }
 
-	/**
-	 * Exception発生時の処理メソッド
-	 * @param e
-	 * @param model
-	 * @return error
-	 */
-	@ExceptionHandler(Exception.class)
-	public String exceptionHandler(Exception e, Model model) {
+    /**
+     * Exception発生時の処理メソッド.
+     */
+    @ExceptionHandler(Exception.class)
+    public String exceptionHandler(Exception e, Model model) {
 
-		// 例外クラスのメッセージをModelに登録
-		model.addAttribute("error","内部サーバーエラー：ExceptionHandler");
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("error", "内部サーバーエラー：ExceptionHandler");
 
-		// 例外クラスのメッセージをModelに登録
-		model.addAttribute("message","SignupControllerでExceptionが発生しました");
+        // 例外クラスのメッセージをModelに登録
+        model.addAttribute("message", "SignupControllerでExceptionが発生しました");
 
-		// HTTPのエラーコード（500）をModelに登録
-		model.addAttribute("status",HttpStatus.INTERNAL_SERVER_ERROR);
+        // HTTPのエラーコード（500）をModelに登録
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
-		return "error";
-
-	}
+        return "error";
+    }
 
 }

@@ -22,11 +22,186 @@
 <body>
 	<!-- fragments/navbar :: menu start -->
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
-		th:replace="fragments/commons :: menu('signup')"></nav>
+		th:replace="fragments/commons :: menu('edit')"></nav>
 	<!-- fragments/navbar :: menu end -->
 
 	<!-- page content start -->
+	<div  th:fragment="empEdit_contents">
+		<div class="col-sm-3">
+			<div class="container mt-5 p-lg-5">
+				<div class="list">社員情報変更</div>
+					<form th:method="put" th:action="@{/edit/{empId}(empId=*{empId})}" th:object="${updateForm}">
+						<table class="table table-bordered">
+							<tbody>
+								<!-- 社員番号入力 -->
+								<tr>
+									<th scope="row">
+										<label for="empIdLine">社員番号</label>
+									</th>
+									<td>
+									    <div class="form-group">
+											<input type="text" class="form-control"
+												placeholder="社員番号を入力してください" th:field="*{empId}" readonly="readonly">
+											<div class="text-danger" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></div>
+                                		</div>
+									</td>
+								</tr>
 
+								<!-- 氏名入力 -->
+								<tr>
+									<th scope="row">
+										<label for="empNameLine">氏名</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="氏名を入力してください" th:field="*{empName}">
+											<div class="text-danger" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></div>
+										</div>
+									</td>
+								</tr>
 
+								<!-- フリガナ入力 -->
+								<tr>
+									<th scope="row">
+										<label for="empKanaLine">フリガナ</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="フリガナを入力してください"
+												th:field="*{empKana}">
+											<div class="text-danger" th:if="${#fields.hasErrors('empKana')}" th:errors="*{empKana}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 所属部署選択 -->
+								<tr>
+									<th scope="row">
+										<label for="affiLine">所属部署</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<select class="form-control" th:name="affi">
+												<option value="">--所属部署を選択してください--</option>
+												<option th:each="affi : ${affi}" th:value="${affi?.key}"
+													th:text="${affi?.value}"
+													th:field="${affi}">
+												</option>
+											</select>
+											<div class="text-danger" th:if="${#fields.hasErrors('affi')}" th:errors="*{affi}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 役職選択 -->
+								<tr>
+									<th scope="row">
+										<label for="empTitleLine">役職</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<select class="form-control" th:name="empTitle">
+												<option value="">--役職を選択してください--</option>
+												<option th:each="empTitle : ${empTitle}" th:value="${empTitle?.key}"
+													th:text="${empTitle?.value}"
+													th:field="${empTitle}">
+												</option>
+											</select>
+											<div class="text-danger" th:if="${#fields.hasErrors('empTitle')}" th:errors="*{empTitle}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 連絡先入力 -->
+								<tr>
+									<th scope="row">
+										<label for="contactLine">連絡先</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="連絡先を入力してください"
+												th:field="*{contact}">
+											<div class="text-danger" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- メールアドレス入力 -->
+								<tr>
+									<th scope="row">
+										<label for="emailLine">メールアドレス</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="メールアドレスを入力してください" th:field="*{email}">
+											<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 入社日入力 -->
+								<tr>
+									<th scope="row">
+										<label for="dateEmpLine">入社日</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control"placeholder="yyyy/MM/dd" th:field="*{dateEmp}" readonly="readonly">
+											<div class="text-danger" th:if="${#fields.hasErrors('dateEmp')}" th:errors="*{dateEmp}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 内容変更理由入力 -->
+								<tr>
+									<th scope="row">
+										<label for="reasonLine">内容変更理由</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="内容変更理由を入力してください" th:field="*{reason}">
+											<div class="text-danger" th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 変更日入力 -->
+								<tr>
+									<th scope="row">
+										<label for="updateDtLine">変更日</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="yyyy/MM/dd" th:field="*{updateDt}">
+											<div class="text-danger" th:if="${#fields.hasErrors('updateDt')}" th:errors="*{updateDt}"></div>
+										</div>
+									</td>
+								</tr>
+
+								<!-- 担当者名入力 -->
+								<tr>
+									<th scope="row">
+										<label for="picLine">担当者名</label>
+									</th>
+									<td>
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="担当者名を入力してください" th:field="*{pic}">
+											<div class="text-danger" th:if="${#fields.hasErrors('pic')}" th:errors="*{pic}"></div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<!--ボタンブロック-->
+						<div class="form-group row">
+			                   <button type="button" class="btn btn-secondary" name="cancel">キャンセル</button>
+			                   <button type="submit" class="btn btn-primary" name="update">更新</button>
+			            </div>
+					</form>
+			</div>
+		</div>
+	</div>
+	<!-- page content end -->
 </body>
 </html>

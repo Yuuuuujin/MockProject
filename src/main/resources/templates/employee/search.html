@@ -35,16 +35,16 @@
 					<div class="card-title">検索条件</div>
 				</div>
 				<div class="container-fluid">
-					<form method="post" th:action="@{/search}"
-						th:object="${searchForm}" class="needs-validation" novalidate>
+					<form method="post" th:action="@{/search}"th:object="${searchForm}">
 						<div class="row">
 							<!-- 社員番号入力 -->
 							<div class="col-8 col-md-6">
 								<div class="form-group">
-									<label for="empIdLine">社員番号</label> <input type="text"
+									<label for="empIdLine">社員番号</label>
+									<input type="text"
 										name="empId" id="empId" class="form-control input-sm"
-										placeholder="社員番号を入力してください" th:field="*{empId}" required />
-									<div class="invalid-feedback"></div>
+										placeholder="社員番号を入力してください" th:field="*{empId}">
+									<div class="text-danger" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -52,11 +52,11 @@
 							<!-- 入社日入力 -->
 							<div class="col-6 col-md-4">
 								<div class="form-group">
-									<label for="dateEmpLine">入社日</label> <input type="text"
+									<label for="dateEmpLine">入社日</label>
+									<input type="text"
 										class="form-control" id="dateEmp" name="dateEmp"
-										min="1994/09/09" max="2099/12/31" placeholder="yyyy-MM-dd"
-										th:field="*{dateEmp}" required>
-									<div class="invalid-feedback"></div>
+										placeholder="yyyy-MM-dd" th:field="*{dateEmp}">
+									<div class="text-danger" th:if="${#fields.hasErrors('dateEmp')}" th:errors="*{dateEmp}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -64,19 +64,21 @@
 							<!-- 氏名 start -->
 							<div class="col-6">
 								<div class="form-group">
-									<label for="empNameLine">氏名</label> <input type="text"
+									<label for="empNameLine">氏名</label>
+									<input type="text"
 										name="empName" id="empName" class="form-control input-sm"
-										placeholder="氏名を入力してください" th:field="*{empName}" required />
-									<div class="invalid-feedback"></div>
+										placeholder="氏名を入力してください" th:field="*{empName}"/>
+									<div class="text-danger" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></div>
 								</div>
 							</div>
 							<!-- フリガナ start -->
 							<div class="col-6">
 								<div class="form-group">
-									<label for="empKanaLine">フリガナ</label> <input type="text"
+									<label for="empKanaLine">フリガナ</label>
+									<input type="text"
 										name="empKana" id="empKana" class="form-control input-sm"
 										placeholder="フリガナを入力してください" th:field="*{empKana}" required />
-									<div class="invalid-feedback"></div>
+									<div class="text-danger" th:if="${#fields.hasErrors('empKana')}" th:errors="*{empKana}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -84,26 +86,26 @@
 							<!-- 所属部署 start -->
 							<div class="col-6">
 								<div class="form-group">
-									<label for="affiLine">所属部署</label> <select class="form-control"
-										id="affi" name="affi" th:name="affi" required>
+									<label for="affiLine">所属部署</label>
+									<select class="form-control" id="affi" name="affi" th:name="affi">
 										<option value="">--所属部署を選択してください--</option>
 										<option th:each="affi : ${affi}" th:value="${affi?.key}"
 											th:utext="${affi?.value}"></option>
 									</select>
-									<div class="invalid-feedback"></div>
+									<div class="text-danger" th:if="${#fields.hasErrors('affi')}" th:errors="*{affi}"></div>
 								</div>
 							</div>
 							<!-- 役職 start -->
 							<div class="col-6">
 								<div class="form-group">
-									<label for="empTitleLine">役職</label> <select
-										class="form-control" id="empTitle" name="empTitle"
-										th:name="empTitle" required>
+									<label for="empTitleLine">役職</label>
+									<select class="form-control" id="empTitle" name="empTitle"
+										th:name="empTitle">
 										<option value="">--役職を選択してください--</option>
 										<option th:each="empTitle : ${empTitle}" th:value="${empTitle?.key}"
 											th:utext="${empTitle?.value}"></option>
 									</select>
-									<div class="invalid-feedback"></div>
+									<div class="text-danger" th:if="${#fields.hasErrors('empTitle')}" th:errors="*{empTitle}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -111,23 +113,21 @@
 							<!-- 連絡先 start -->
 							<div class="col-6">
 								<div class="form-group">
-									<label for="contactLine">連絡先</label> <input type="text"
+									<label for="contactLine">連絡先</label>
+									<input type="text"
 										class="form-control" name="contact" id="contact"
-										style="ime-mode: disabled" placeholder="連絡先を入力してください"
-										pattern="\d{2,3}-?\d{3,4}-?\d{3,4}" title="電話番号"
-										th:field="*{contact}" required>
-									<div class="invalid-feedback"></div>
+										placeholder="連絡先を入力してください" th:field="*{contact}">
+									<div class="text-danger" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"></div>
 								</div>
 							</div>
 							<!-- メールアドレス start -->
 							<div class="col-6">
 								<div class="form-group">
-									<label for="emailLine">メールアドレス</label> <input type="text"
-										class="form-control" name="email" style="ime-mode: disabled"
+									<label for="emailLine">メールアドレス</label>
+									<input type="text" class="form-control" name="email"
 										placeholder="メールアドレスを入力してください"
-										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-										title="メールアドレス" th:field="*{email}" required>
-									<div class="invalid-feedback"></div>
+										title="メールアドレス" th:field="*{email}">
+									<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 								</div>
 							</div>
 							<!-- button start -->

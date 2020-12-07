@@ -107,13 +107,18 @@ public class SearchController {
 			Model model,
 			BindingResult result) {
 
-		// 検索条件に問題がなければ社員情報を検索してListに詰める
-    	List<EmployeeDto> searchList = empService.search(form);
-
-    	// 検索結果Listをmodelに渡す
-        model.addAttribute("searchList", searchList);
 		// 社員情報検索画面
 		model.addAttribute("title", "社員情報検索画面");
+
+    	List<EmployeeDto> searchList = empService.search(form);
+
+    	if(searchList != null) {
+        	// 検索結果Listをmodelに渡す
+            model.addAttribute("searchList", searchList);
+    		//データ件数を取得
+    		int count = empService.count();
+    		model.addAttribute("count", count);
+    	}
 
         return "employee/search";
 

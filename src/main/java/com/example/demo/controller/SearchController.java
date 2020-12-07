@@ -83,7 +83,7 @@ public class SearchController {
 	 * @return employee/search
 	 */
 	@GetMapping
-	public String getSearch(@ModelAttribute SearchForm form,
+	public String getSearch(SearchForm form,
 			Model model) {
 
 		// 社員情報検索画面
@@ -103,24 +103,67 @@ public class SearchController {
 	}
 
 	@PostMapping
-	public String postSearch(SearchForm form,
-			Model model,
-			BindingResult result) {
+	public String postSearch(@ModelAttribute SearchForm form,
+			BindingResult result,
+			Model model) {
 
-		// 社員情報検索画面
-		model.addAttribute("title", "社員情報検索画面");
+		// 社員番号
+		String empId = form.getEmpId();
+		// 氏名
+		String empName = form.getEmpName();
+		// フリガナ
+		String empKana = form.getEmpKana();
+		// 所属部署
+		String affi = form.getAffi();
+		// 役職
+		String empTitle = form.getEmpTitle();
+		// 連絡先
+		String contact = form.getContact();
+		// メールアドレス
+		String email = form.getEmail();
+		// 入社日
+		String dateEmp = form.getDateEmp();
 
-    	List<EmployeeDto> searchList = empService.search(form);
 
-    	if(searchList != null) {
-        	// 検索結果Listをmodelに渡す
-            model.addAttribute("searchList", searchList);
-    		//データ件数を取得
-    		int count = empService.count();
-    		model.addAttribute("count", count);
-    	}
+		if(empId == "" && empName == "" &&
+				empKana == "" && affi == "" &&
+				empTitle == "" && contact == "" &&
+				email == "" && dateEmp == "") {
 
-        return "employee/search";
+			// エラーメッセージを表示
+			model.addAttribute("error", "検索条件を入力してください");
+
+			return "employee/search";
+
+		} else if (result.hasErrors()) {
+
+			model.addAttribute("empId", form.getEmpId());
+			model.addAttribute("empName", form.getEmpName());
+			model.addAttribute("empKana",form.getEmpKana());
+			model.addAttribute("affi", form.getAffi());
+			model.addAttribute("empTitle", form.getEmpTitle());
+			model.addAttribute("contact", form.getContact());
+			model.addAttribute("email", form.getEmail());
+			model.addAttribute("dateEmp", form.getDateEmp());
+
+			return "employee/search";
+
+		} else {
+
+			// 社員情報検索画面
+			model.addAttribute("title", "社員情報検索画面");
+
+	    	List<EmployeeDto> searchList = empService.search(form);
+
+	        // 検索結果Listをmodelに渡す
+	    	model.addAttribute("searchList", searchList);
+	    	//データ件数を取得
+	    	int count = empService.count();
+	    	model.addAttribute("count", count);
+
+	        return "employee/search";
+
+		}
 
     }
 

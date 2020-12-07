@@ -67,7 +67,7 @@
 									<label for="empNameLine">氏名</label>
 									<input type="text"
 										name="empName" id="empName" class="form-control input-sm"
-										placeholder="氏名を入力してください" th:field="*{empName}"/>
+										placeholder="氏名を入力してください" th:field="*{empName}">
 									<div class="text-danger" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></div>
 								</div>
 							</div>
@@ -77,7 +77,7 @@
 									<label for="empKanaLine">フリガナ</label>
 									<input type="text"
 										name="empKana" id="empKana" class="form-control input-sm"
-										placeholder="フリガナを入力してください" th:field="*{empKana}" required />
+										placeholder="フリガナを入力してください" th:field="*{empKana}">
 									<div class="text-danger" th:if="${#fields.hasErrors('empKana')}" th:errors="*{empKana}"></div>
 								</div>
 							</div>
@@ -151,14 +151,14 @@
 	<!-- 入力条件が満たしていない場合 end -->
 
 	<!-- 検索条件が存在しない場合に表示 start -->
-	<div th:if ="${searchList == 0}" >
+	<div th:if ="${searchList == null}" >
 		<p th:text="${error}"></p>
 	</div>
 	<!-- 検索条件が存在しない場合に表示 end -->
 
 	<!-- 検索結果が存在する場合に表示 start -->
 	<!-- 件数を表示 -->
-	<div th:if ="${searchList != 0}" >
+	<div th:if ="${searchList != null}" >
 		<p th:if="${count}" th:text="'検索結果：' + ${count} + '件'"></p>
 		<!-- 検索結果の一覧を表示 -->
 		<div class="container mt-5 p-lg-5">

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.EmployeeForm;
+import com.example.demo.domain.valid.GroupOrder;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
@@ -148,7 +149,7 @@ public class EmployeeController {
 	 * 社員情報更新用処理.
 	 */
 	@PostMapping(value = "/edit", params = "update")
-	public String update(@Validated @ModelAttribute EmployeeForm form,
+	public String update(@ModelAttribute @Validated(GroupOrder.class) EmployeeForm form,
 			BindingResult result,
 			Model model) {
 

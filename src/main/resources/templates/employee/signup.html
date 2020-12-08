@@ -77,7 +77,7 @@
 							</th>
 							<td>
 								<div class="form-group">
-									<select class="form-control" th:name="affi" required>
+									<select id="affi" name="affi" class="form-control" th:name="affi" required>
 										<option value="">--所属部署を選択してください--</option>
 										<option th:each="affi : ${affi}" th:value="${affi?.key}"
 											th:text="${affi?.value}" th:field="${affi}"></option>
@@ -92,7 +92,7 @@
 							</th>
 							<td>
 								<div class="form-group">
-									<select class="form-control" th:name="empTitle" required>
+									<select id="empTitle" name="empTitle" class="form-control" th:name="empTitle" required>
 										<option value="">--役職を選択してください--</option>
 										<option th:each="empTitle : ${empTitle}"
 											th:value="${empTitle?.key}" th:text="${empTitle?.value}"

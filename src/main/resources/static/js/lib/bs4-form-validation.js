@@ -1,29 +1,32 @@
+/**
+ * 入力フォームチェック
+ * */
 class Validation
 {
 
 	constructor(formId)
 	{
-		// Form globals
+		// フォームグローバル
 		this.form = $("#" + formId);
 		this.submitButton = $(this.form).find('input[type="submit"]');
 		this.submitButtonText = this.submitButton.val();
 
-		// Global input array
+		// グローバルinput配列
 		this.inputLog = [];
 
-		// Basic css classes
+		// 基本css クラス
 		this.validC = "is-valid";
 		this.invalidC = "is-invalid";
 
-		// Enables submit listener
+		// チェックに引っかかラなかったら、submitする
 		this.checkAll();
 	}
 
-	////////////////////
-	// Main Functions //
-	////////////////////
+	/////////////
+	//主な機能//
+	////////////
 	/*
-        The functions in this category are called by developers to add a responsive layer of form validation
+        このカテゴリの関数は、フォーム検証の応答レイヤを追加するために呼び出される
 	 */
 
 	/*
@@ -34,35 +37,35 @@ class Validation
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// Create requried
+		// 必須項目の作成
 		this.createRequried(input);
 
-		// Add this input to the input log, for easy check alls
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
 		this.inputLog.push(["requireEmpId", inputId, illegalCharArray, necessaryCharArray]);
 
-		// Check string for issues while editing
+		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
-			// Append any invalid issues to string when editing
+			// 編集時に無効な問題を文字列に追加します
 			invalidString = "";
 			invalidString += this.illegalCharCheck(input, illegalCharArray);
 			this.showWarning(input, inputId, invalidString);
 		});
 
-		// Enable submit again on an input change
+		// 入力変更時に送信を再度有効にする
 		$(input).on('input', input, () =>
 		{
 			this.submitDisabled(false, this.submitButtonText);
 		});
 
-		// Check string for issues after editing
+		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
 			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.empIdCheck(input);
 			this.showWarning(input, inputId, invalidString);
-			// Remove green border
-			this.removeValid(input);
+			// 検証結果を保持する
+			this.valid(input);
 		});
 
 		return invalidString;
@@ -76,35 +79,35 @@ class Validation
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// Create requried
+		// 必須項目の作成
 		this.createRequried(input);
 
-		// Add this input to the input log, for easy check alls
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
 		this.inputLog.push(["requireEmpName", inputId, illegalCharArray, necessaryCharArray]);
 
-		// Check string for issues while editing
+		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
-			// Append any invalid issues to string when editing
+			// 編集時に無効な問題を文字列に追加します
 			invalidString = "";
 			invalidString += this.illegalCharCheck(input, illegalCharArray);
 			this.showWarning(input, inputId, invalidString);
 		});
 
-		// Enable submit again on an input change
+		// 入力変更時に送信を再度有効にする
 		$(input).on('input', input, () =>
 		{
 			this.submitDisabled(false, this.submitButtonText);
 		});
 
-		// Check string for issues after editing
+		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
 			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.empNameCheck(input);
 			this.showWarning(input, inputId, invalidString);
-			// Remove green border
-			this.removeValid(input);
+			// 検証結果を保持する
+			this.valid(input);
 		});
 
 		return invalidString;
@@ -145,8 +148,8 @@ class Validation
 			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.empKanaCheck(input);
 			this.showWarning(input, inputId, invalidString);
-			// Remove green border
-			this.removeValid(input);
+			// 検証結果を保持する
+			this.valid(input);
 		});
 
 		return invalidString;
@@ -187,8 +190,8 @@ class Validation
 			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.contactCheck(input);
 			this.showWarning(input, inputId, invalidString);
-			// Remove green border
-			this.removeValid(input);
+			// 検証結果を保持する
+			this.valid(input);
 		});
 
 		return invalidString;
@@ -229,8 +232,8 @@ class Validation
 			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.emailCheck(input);
 			this.showWarning(input, inputId, invalidString);
-			// Remove green border
-			this.removeValid(input);
+			// 検証結果を保持する
+			this.valid(input);
 		});
 
 		return invalidString;
@@ -271,8 +274,8 @@ class Validation
 			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.dateEmpCheck(input);
 			this.showWarning(input, inputId, invalidString);
-			// Remove green border
-			this.removeValid(input);
+			// 検証結果を保持する
+			this.valid(input);
 		});
 
 		return invalidString;

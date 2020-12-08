@@ -10,14 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.EmployeeForm;
-import com.example.demo.domain.valid.GroupOrder;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
@@ -59,7 +57,7 @@ public class SignupController {
 
 	/**
 	 * 役職セレクタの初期化メソッド
-	 * @return title
+	 * @return empTitle
 	 */
 	private Map<String, String> initTitleSelect(){
 
@@ -75,6 +73,7 @@ public class SignupController {
 
 		return empTitle;
 	}
+
 	/**
 	 * 社員情報登録画面のGET用コントローラー
 	 * @param form
@@ -119,20 +118,9 @@ public class SignupController {
 	 * @return redirect:/signup
 	 */
 	@PostMapping("/signup")
-	public String postSignUp(@ModelAttribute @Validated(GroupOrder.class)EmployeeForm form,
+	public String postSignUp(@ModelAttribute EmployeeForm form,
 			BindingResult result,
 			Model model) {
-
-        // 入力チェックに引っかかった場合、社員情報登録画面に戻る
-        if (result.hasErrors()) {
-
-            // GETリクエスト用のメソッドを呼び出して、社員情報登録画面に戻ります
-            return getSignUp(form, model);
-
-        }
-
-		// formの中身をコンソールに出して確認する
-		System.out.println(form);
 
 		// insert用変数
 		EmployeeDto empDto = new EmployeeDto();

@@ -3,18 +3,20 @@
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-<link th:href="@{/css/starter-template.css}" rel="stylesheet">
-<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+<link th:href="@{/css/lib/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/lib/starter-template.css}" rel="stylesheet">
+<link th:href="@{/css/lib/font-awesome.min.css}" rel="stylesheet">
+<!-- 社員情報登録画面 CSS -->
 <link th:href="@{/css/signup.css}" rel="stylesheet">
 
 <!-- js -->
-<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/lib/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/lib/popper.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
 
 <!-- title -->
 <title th:text="${title}"></title>
@@ -24,135 +26,119 @@
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
 		th:replace="fragments/commons :: menu('signup')"></nav>
 	<!-- fragments/navbar :: menu end -->
-
 	<!-- page content start -->
 	<!-- 社員情報登録画面 start -->
 	<div class="col-sm-3">
 		<div class="container mt-5 p-lg-5">
 			<div class="list">社員情報登録</div>
-			<form method="post" th:action="@{/signup}" th:object="${employeeForm}">
-						<table class="table table-bordered">
-							<tbody>
-								<!-- 社員番号入力 -->
-								<tr>
-									<th scope="row">
-										<label for="empIdLine">社員番号</label>
-									</th>
-									<td>
-									    <div class="form-group">
-											<input type="text" class="form-control"	placeholder="社員番号を入力してください" th:field="*{empId}">
-											<div class="text-danger" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></div>
-                                		</div>
-									</td>
-								</tr>
-
-								<!-- 氏名入力 -->
-								<tr>
-									<th scope="row">
-										<label for="empNameLine">氏名</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="氏名を入力してください" th:field="*{empName}">
-											<div class="text-danger" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- フリガナ入力 -->
-								<tr>
-									<th scope="row">
-										<label for="empKanaLine">フリガナ</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="フリガナを入力してください"
-												th:field="*{empKana}">
-											<div class="text-danger" th:if="${#fields.hasErrors('empKana')}" th:errors="*{empKana}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 所属部署選択 -->
-								<tr>
-									<th scope="row">
-										<label for="affiLine">所属部署</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<select class="form-control" th:name="affi">
-												<option value="">--所属部署を選択してください--</option>
-												<option th:each="affi : ${affi}" th:value="${affi?.key}"
-													th:text="${affi?.value}"
-													th:field="${affi}">
-												</option>
-											</select>
-											<div class="text-danger" th:if="${#fields.hasErrors('affi')}" th:errors="*{affi}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 役職選択 -->
-								<tr>
-									<th scope="row">
-										<label for="empTitleLine">役職</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<select class="form-control" th:name="empTitle">
-												<option value="">--役職を選択してください--</option>
-												<option th:each="empTitle : ${empTitle}" th:value="${empTitle?.key}"
-													th:text="${empTitle?.value}"
-													th:field="${empTitle}">
-												</option>
-											</select>
-											<div class="text-danger" th:if="${#fields.hasErrors('empTitle')}" th:errors="*{empTitle}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 連絡先入力 -->
-								<tr>
-									<th scope="row">
-										<label for="contactLine">連絡先</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="連絡先を入力してください"
-												th:field="*{contact}">
-											<div class="text-danger" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- メールアドレス入力 -->
-								<tr>
-									<th scope="row">
-										<label for="emailLine">メールアドレス</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="メールアドレスを入力してください" th:field="*{email}">
-											<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-										</div>
-									</td>
-								</tr>
-
-								<!-- 入社日入力 -->
-								<tr>
-									<th scope="row">
-										<label for="dateEmpLine">入社日</label>
-									</th>
-									<td>
-										<div class="form-group">
-											<input type="text" class="form-control"placeholder="yyyy-MM-dd" th:field="*{dateEmp}">
-											<div class="text-danger" th:if="${#fields.hasErrors('dateEmp')}" th:errors="*{dateEmp}"></div>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
+			<form id="input-form" method="post" th:action="@{/signup}" th:object="${employeeForm}">
+				<table class="table table-bordered">
+					<tbody>
+						<!-- 社員番号入力 -->
+						<tr>
+							<th scope="row">
+								<label for="empIdLine">社員番号</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<input id="empId" name="empId" type="text" class="form-control"
+										placeholder="社員番号を入力してください" th:field="*{empId}">
+								</div>
+							</td>
+						</tr>
+						<!-- 氏名入力 -->
+						<tr>
+							<th scope="row">
+								<label for="empNameLine">氏名</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<input id="empName" name="empName" type="text" class="form-control"
+										placeholder="氏名を入力してください" th:field="*{empName}">
+								</div>
+							</td>
+						</tr>
+						<!-- フリガナ入力 -->
+						<tr>
+							<th scope="row">
+								<label for="empKanaLine">フリガナ</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<input id="empKana" name="empKana" type="text" class="form-control"
+										placeholder="フリガナを入力してください" th:field="*{empKana}">
+								</div>
+							</td>
+						</tr>
+						<!-- 所属部署選択 -->
+						<tr>
+							<th scope="row">
+								<label for="affiLine">所属部署</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<select class="form-control" th:name="affi" required>
+										<option value="">--所属部署を選択してください--</option>
+										<option th:each="affi : ${affi}" th:value="${affi?.key}"
+											th:text="${affi?.value}" th:field="${affi}"></option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<!-- 役職選択 -->
+						<tr>
+							<th scope="row">
+								<label for="empTitleLine">役職</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<select class="form-control" th:name="empTitle" required>
+										<option value="">--役職を選択してください--</option>
+										<option th:each="empTitle : ${empTitle}"
+											th:value="${empTitle?.key}" th:text="${empTitle?.value}"
+											th:field="${empTitle}"></option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<!-- 連絡先入力 -->
+						<tr>
+							<th scope="row">
+								<label for="contactLine">連絡先</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<input id="contact" name="contact" type="text" class="form-control"
+										placeholder="連絡先を入力してください" th:field="*{contact}">
+								</div>
+							</td>
+						</tr>
+						<!-- メールアドレス入力 -->
+						<tr>
+							<th scope="row">
+								<label for="emailLine">メールアドレス</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<input id="email" name="email" type="text" class="form-control"
+										placeholder="メールアドレスを入力してください" th:field="*{email}">
+								</div>
+							</td>
+						</tr>
+						<!-- 入社日入力 -->
+						<tr>
+							<th scope="row">
+								<label for="dateEmpLine">入社日</label>
+							</th>
+							<td>
+								<div class="form-group">
+									<input id="dateEmp" name="dateEmp" type="text" class="form-control"
+										placeholder="yyyy/MM/dd" th:field="*{dateEmp}">
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 				<!--ボタンブロック-->
 				<div class="form-group row">
 					<div class="col-sm-12">
@@ -163,7 +149,18 @@
 		</div>
 	</div>
 	<!-- 社員情報登録画面 end -->
-
+	<!-- フォーム入力チェック JS -->
+	<script type="text/javascript" th:src="@{/js/lib/bs4-form-validation.js}"></script>
+	<script type="text/javascript">
+		let form = new Validation("input-form");
+		// Validation Functions
+		form.requireEmpId("empId", [ " " ], []);
+		form.requireEmpName("empName", [ " " ], []);
+		form.requireEmpKana("empKana", [ " " ], []);
+		form.requireContact("contact", [ " " ], []);
+		form.requireEmail("email", [ " " ], []);
+		form.requireDateEmp("dateEmp", [ " " ], []);
+	</script>
 	<!-- 社員情報登録一覧 start -->
 	<div class="container" th:fragment="empList_contents">
 		<div class="list">社員情報登録一覧</div>

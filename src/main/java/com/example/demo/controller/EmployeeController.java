@@ -9,14 +9,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.EmployeeForm;
-import com.example.demo.domain.valid.GroupOrder;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
@@ -98,80 +96,62 @@ public class EmployeeController {
 
 	}
 
-    /**
-     * 社員情報変更画面のGETメソッド用処理.
-     */
+	/**
+	 * 社員情報変更画面のGETメソッド用処理.
+	 */
 	@GetMapping("/edit/{empId}")
 	public String getEmpEdit(@PathVariable("empId") String empId,
 			Model model) {
 
-        // 社員情報を取得
-        EmployeeDto empDto = empService.selectOne(empId);
-        // Modelに登録
-        model.addAttribute("employeeForm", empDto);
-
-        // 社員番号確認（デバッグ）
-        System.out.println("empId = " + empId);
-
+		// 社員情報を取得
+		EmployeeDto empDto = empService.selectOne(empId);
+		// Modelに登録
+		model.addAttribute("employeeForm", empDto);
 		// 社員情報変更画面
 		model.addAttribute("title", "社員情報変更画面");
+		// コンテンツ部分に社員情報を表示するための文字列を登録
+		model.addAttribute("contents", "employee/edit :: empEdit_contents");
+		// 所属部署セレクタの初期化メソッド呼び出し
+		affi = initAffiSelect();
+		// 役職セレクタの初期化メソッド呼び出し
+		empTitle = initTitleSelect();
+		// 所属部署セレクタ用のMapをModelに登録
+		model.addAttribute("affi", affi);
+		// 役職セレクタ用のMapをModelに登録
+		model.addAttribute("empTitle", empTitle);
 
-        // コンテンツ部分に社員情報を表示するための文字列を登録
-        model.addAttribute("contents", "employee/edit :: empEdit_contents");
+		// 社員番号のチェック
+		if (empId != null && empId.length() > 0) {
+			EmployeeForm form = new EmployeeForm();
 
-        affi = initAffiSelect();
-        empTitle = initTitleSelect();
+			// EmployeeDtoクラスをフォームクラスに変換
+			form.setEmpId(empDto.getEmpId());
+			form.setEmpName(empDto.getEmpName());
+			form.setEmpKana(empDto.getEmpKana());
+			form.setAffi(empDto.getAffi());
+			form.setEmpTitle(empDto.getEmpTitle());
+			form.setContact(empDto.getContact());
+			form.setEmail(empDto.getEmail());
+			form.setDateEmp(empDto.getDateEmp());
 
-        model.addAttribute("affi", affi);
-        model.addAttribute("empTitle", empTitle);
+			// Modelに登録
+			model.addAttribute("employeeForm", form);
+		}
 
-        // 社員番号のチェック
-        if (empId != null && empId.length() > 0) {
-        	EmployeeForm form = new EmployeeForm();
-
-            // EmployeeDtoクラスをフォームクラスに変換
-            form.setEmpId(empDto.getEmpId());
-            form.setEmpName(empDto.getEmpName());
-            form.setEmpKana(empDto.getEmpKana());
-            form.setAffi(empDto.getAffi());
-            form.setEmpTitle(empDto.getEmpTitle());
-            form.setContact(empDto.getContact());
-            form.setEmail(empDto.getEmail());
-            form.setDateEmp(empDto.getDateEmp());
-
-            // Modelに登録
-            model.addAttribute("employeeForm", form);
-        }
-
-        return "employee/edit";
-    }
+		return "employee/edit";
+	}
 	/**
 	 * 社員情報更新用処理.
 	 */
 	@PostMapping(value = "/edit", params = "update")
-	public String update(@ModelAttribute @Validated(GroupOrder.class) EmployeeForm form,
+	public String update(@ModelAttribute EmployeeForm form,
 			BindingResult result,
 			Model model) {
 
-		System.out.println("更新ボタンの処理");
-
-		if(result.hasErrors()) {
-			model.addAttribute("empId", form.getEmpId());
-			model.addAttribute("empName", form.getEmpName());
-			model.addAttribute("empKana",form.getEmpKana());
-			model.addAttribute("affi", form.getAffi());
-			model.addAttribute("empTitle", form.getEmpTitle());
-			model.addAttribute("contact", form.getContact());
-			model.addAttribute("email", form.getEmail());
-			model.addAttribute("dateEmp", form.getDateEmp());
-
-			return "employee/edit";
-		}
-
-		//Userインスタンスの生成
+		// EmployeeDtoインスタンスの生成
 		EmployeeDto empDto = new EmployeeDto();
 
-		//フォームクラスをUserクラスに変換
+		//フォームクラスをempDtoクラスに変換
 		// 社員番号
 		empDto.setEmpId(form.getEmpId());
 		// 氏名
@@ -195,9 +175,13 @@ public class EmployeeController {
 			boolean updateResult = empService.update(empDto);
 
 			if (updateResult == true) {
+
 				model.addAttribute("updateResult", "更新成功");
+
 			} else {
 				model.addAttribute("updateResult", "更新失敗");
+
+				return "employee/edit";
 			}
 
 		} catch(DataAccessException e) {

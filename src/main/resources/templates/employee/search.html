@@ -6,15 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-<link th:href="@{/css/starter-template.css}" rel="stylesheet">
-<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+<link th:href="@{/css/lib/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/lib/starter-template.css}" rel="stylesheet">
+<link th:href="@{/css/lib/font-awesome.min.css}" rel="stylesheet">
+<!-- 社員情報検索画面 CSS -->
 <link th:href="@{/css/search.css}" rel="stylesheet">
 
 <!-- js -->
-<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/lib/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/lib/popper.min.js}"></script>
+<script th:src="@{/js/lib/bootstrap.min.js}"></script>
 
 <!-- title -->
 <title th:text="${title}"></title>
@@ -24,7 +25,6 @@
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
 		th:replace="fragments/commons :: menu('search')"></nav>
 	<!-- fragments/navbar :: menu end -->
-
 	<!-- page content start -->
 	<!-- 社員検索画面 start -->
 	<div class="container mt-5 p-lg-5">
@@ -44,7 +44,6 @@
 									<input type="text"
 										name="empId" id="empId" class="form-control input-sm"
 										placeholder="社員番号を入力してください" th:field="*{empId}">
-									<div class="text-danger" th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -56,7 +55,6 @@
 									<input type="text"
 										class="form-control" id="dateEmp" name="dateEmp"
 										placeholder="yyyy-MM-dd" th:field="*{dateEmp}">
-									<div class="text-danger" th:if="${#fields.hasErrors('dateEmp')}" th:errors="*{dateEmp}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -68,7 +66,6 @@
 									<input type="text"
 										name="empName" id="empName" class="form-control input-sm"
 										placeholder="氏名を入力してください" th:field="*{empName}">
-									<div class="text-danger" th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}"></div>
 								</div>
 							</div>
 							<!-- フリガナ start -->
@@ -78,7 +75,6 @@
 									<input type="text"
 										name="empKana" id="empKana" class="form-control input-sm"
 										placeholder="フリガナを入力してください" th:field="*{empKana}">
-									<div class="text-danger" th:if="${#fields.hasErrors('empKana')}" th:errors="*{empKana}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -92,7 +88,6 @@
 										<option th:each="affi : ${affi}" th:value="${affi?.key}"
 											th:utext="${affi?.value}"></option>
 									</select>
-									<div class="text-danger" th:if="${#fields.hasErrors('affi')}" th:errors="*{affi}"></div>
 								</div>
 							</div>
 							<!-- 役職 start -->
@@ -105,7 +100,6 @@
 										<option th:each="empTitle : ${empTitle}" th:value="${empTitle?.key}"
 											th:utext="${empTitle?.value}"></option>
 									</select>
-									<div class="text-danger" th:if="${#fields.hasErrors('empTitle')}" th:errors="*{empTitle}"></div>
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -117,7 +111,6 @@
 									<input type="text"
 										class="form-control" name="contact" id="contact"
 										placeholder="連絡先を入力してください" th:field="*{contact}">
-									<div class="text-danger" th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"></div>
 								</div>
 							</div>
 							<!-- メールアドレス start -->
@@ -127,7 +120,6 @@
 									<input type="text" class="form-control" name="email"
 										placeholder="メールアドレスを入力してください"
 										title="メールアドレス" th:field="*{email}">
-									<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 								</div>
 							</div>
 							<!-- button start -->

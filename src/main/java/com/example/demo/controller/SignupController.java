@@ -155,7 +155,10 @@ public class SignupController {
 	}
 
 	/**
-	 * DataAccessException発生時の処理メソッド.
+	 * DataAccessException発生時の処理メソッド
+	 * @param e
+	 * @param model
+	 * @return error
 	 */
 	@ExceptionHandler(DataAccessException.class)
 	public String dataAccessExceptionHandler(DataAccessException e, Model model) {
@@ -173,7 +176,10 @@ public class SignupController {
 	}
 
 	/**
-	 * Exception発生時の処理メソッド.
+	 * Exception発生時の処理メソッド
+	 * @param e
+	 * @param model
+	 * @return error
 	 */
 	@ExceptionHandler(Exception.class)
 	public String exceptionHandler(Exception e, Model model) {

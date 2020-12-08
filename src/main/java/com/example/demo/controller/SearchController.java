@@ -60,7 +60,7 @@ public class SearchController {
 
 	/**
 	 * 役職セレクタの初期化メソッド
-	 * @return title
+	 * @return empTitle
 	 */
 	private Map<String, String> initTitleSelect(){
 
@@ -78,7 +78,7 @@ public class SearchController {
 	}
 
 	/**
-	 * 社員情報検索画面のGET用コントローラー
+	 * 社員情報検索画面のGET用
 	 * @param form
 	 * @param model
 	 * @return employee/search
@@ -103,6 +103,13 @@ public class SearchController {
 
 	}
 
+	/**
+	 * 社員情報検索画面のPOST用
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @return employee/search
+	 */
 	@PostMapping
 	public String postSearch(@ModelAttribute SearchForm form,
 			BindingResult result,

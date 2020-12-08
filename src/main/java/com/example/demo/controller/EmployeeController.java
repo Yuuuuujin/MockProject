@@ -9,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,7 +56,7 @@ public class EmployeeController {
 
 	/**
 	 * 役職セレクタの初期化メソッド
-	 * @return title
+	 * @return empTitle
 	 */
 	private Map<String, String> initTitleSelect(){
 
@@ -75,7 +74,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 社員情報一覧画面のGET用コントローラー
+	 * 社員情報一覧画面のGET用
 	 * @param model
 	 * @return employee/list
 	 */
@@ -99,7 +98,10 @@ public class EmployeeController {
 	}
 
 	/**
-	 * 社員情報変更画面のGETメソッド用処理.
+	 * 社員情報変更画面のGET用
+	 * @param empId
+	 * @param model
+	 * @return employee/edit
 	 */
 	@GetMapping("/edit/{empId}")
 	public String getEmpEdit(@PathVariable("empId") String empId,
@@ -143,11 +145,13 @@ public class EmployeeController {
 		return "employee/edit";
 	}
 	/**
-	 * 社員情報更新用処理.
+	 * 社員情報変更画面のPOST用
+	 * @param form
+	 * @param model
+	 * @return redirect:/list
 	 */
 	@PostMapping(value = "/edit", params = "update")
 	public String postEmpEdit(@ModelAttribute EmployeeForm form,
-			BindingResult result,
 			Model model) {
 
 		// EmployeeDtoインスタンスの生成

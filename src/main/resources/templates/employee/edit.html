@@ -78,12 +78,11 @@
 								</th>
 								<td>
 									<div class="form-group">
-										<select id="affi" name="affi" class="form-control" th:name="affi" required>
+										<select id="affi" name="affi" class="form-control" th:field="*{affi}" required>
 											<option value="">--所属部署を選択してください--</option>
 											<option th:each="affi : ${affi}"
 												th:value="${affi?.key}"
-												th:text="${affi?.value}"
-												th:field="${affi}">
+												th:text="${affi?.value}">
 											</option>
 										</select>
 									</div>
@@ -96,12 +95,11 @@
 								</th>
 								<td>
 									<div class="form-group">
-										<select id="empTitle" name="empTitle" class="form-control" th:name="empTitle" required>
+										<select id="empTitle" name="empTitle" class="form-control" th:field="*{empTitle}" required>
 											<option value="">--役職を選択してください--</option>
 											<option th:each="empTitle : ${empTitle}"
 												th:value="${empTitle?.key}"
-												th:text="${empTitle?.value}"
-												th:field="${empTitle}">
+												th:text="${empTitle?.value}">
 											</option>
 										</select>
 									</div>
@@ -156,17 +154,15 @@
 		</div>
 	</div>
 	<!-- 社員情報変更画面 end -->
-	<!-- フォーム入力チェック JS -->
-	<script type="text/javascript" th:src="@{/js/lib/bs4-form-validation.js}"></script>
+	<!-- フォーム入力チェック js -->
+	<script th:src="@{/js/lib/bs4-form-validation.js}"></script>
 	<script type="text/javascript">
 		let form = new Validation("input-form");
-		// Validation Functions
-		form.requireEmpId("empId", [ " " ], []);
+		// 項目の内容をチェック
 		form.requireEmpName("empName", [ " " ], []);
 		form.requireEmpKana("empKana", [ " " ], []);
 		form.requireContact("contact", [ " " ], []);
 		form.requireEmail("email", [ " " ], []);
-		form.requireDateEmp("dateEmp", [ " " ], []);
 	</script>
 </body>
 </html>

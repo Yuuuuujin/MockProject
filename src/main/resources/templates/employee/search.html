@@ -3,7 +3,8 @@
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
 <link th:href="@{/css/lib/bootstrap.min.css}" rel="stylesheet">
@@ -35,7 +36,7 @@
 					<div class="card-title">検索条件</div>
 				</div>
 				<div class="container-fluid">
-					<form method="post" th:action="@{/search}"th:object="${searchForm}">
+					<form method="post" th:action="@{/search}" th:object="${searchForm}">
 						<div class="row">
 							<!-- 社員番号入力 -->
 							<div class="col-8 col-md-6">
@@ -54,7 +55,7 @@
 									<label for="dateEmpLine">入社日</label>
 									<input type="text"
 										class="form-control" id="dateEmp" name="dateEmp"
-										placeholder="yyyy-MM-dd" th:field="*{dateEmp}">
+										placeholder="yyyy/MM/dd" th:field="*{dateEmp}">
 								</div>
 							</div>
 							<!-- 改行 -->
@@ -85,8 +86,11 @@
 									<label for="affiLine">所属部署</label>
 									<select class="form-control" id="affi" name="affi" th:name="affi">
 										<option value="">--所属部署を選択してください--</option>
-										<option th:each="affi : ${affi}" th:value="${affi?.key}"
-											th:utext="${affi?.value}"></option>
+										<option th:each="affi : ${affi}"
+											th:value="${affi?.key}"
+											th:text="${affi?.value}"
+											th:field="*{affi}">
+										</option>
 									</select>
 								</div>
 							</div>
@@ -94,11 +98,13 @@
 							<div class="col-6">
 								<div class="form-group">
 									<label for="empTitleLine">役職</label>
-									<select class="form-control" id="empTitle" name="empTitle"
-										th:name="empTitle">
+									<select class="form-control" id="empTitle" name="empTitle" th:name="empTitle">
 										<option value="">--役職を選択してください--</option>
-										<option th:each="empTitle : ${empTitle}" th:value="${empTitle?.key}"
-											th:utext="${empTitle?.value}"></option>
+										<option th:each="empTitle : ${empTitle}"
+											th:value="${empTitle?.key}"
+											th:text="${empTitle?.value}"
+											th:field="*{empTitle}">
+										</option>
 									</select>
 								</div>
 							</div>
@@ -108,8 +114,7 @@
 							<div class="col-6">
 								<div class="form-group">
 									<label for="contactLine">連絡先</label>
-									<input type="text"
-										class="form-control" name="contact" id="contact"
+									<input type="text" class="form-control" name="contact" id="contact"
 										placeholder="連絡先を入力してください" th:field="*{contact}">
 								</div>
 							</div>
@@ -118,15 +123,14 @@
 								<div class="form-group">
 									<label for="emailLine">メールアドレス</label>
 									<input type="text" class="form-control" name="email"
-										placeholder="メールアドレスを入力してください"
-										title="メールアドレス" th:field="*{email}">
+										placeholder="メールアドレスを入力してください" th:field="*{email}">
 								</div>
 							</div>
 							<!-- button start -->
 							<div class="col">
 								<div class="button">
-									<input type="reset" value="クリア" class="btn btn-light">
-									<input type="submit" value="検索" class="btn btn-dark">
+									<button type="reset" class="btn btn-light">クリア</button>
+									<button type="submit" class="btn btn-dark">検索</button>
 								</div>
 							</div>
 						</div>
@@ -137,49 +141,43 @@
 		</div>
 	</div>
 	<!-- 社員検索画面 end -->
-
-	<!-- 入力条件が満たしていない場合 start -->
-
-	<!-- 入力条件が満たしていない場合 end -->
-
 	<!-- 検索条件が存在しない場合に表示 start -->
-	<div th:if ="${searchList == null}" >
-		<p th:text="${error}"></p>
+	<div class="container" th:if="${searchList == count}">
+		<div class="alert alert-danger" role="alert" th:text="${error}"></div>
 	</div>
 	<!-- 検索条件が存在しない場合に表示 end -->
 
 	<!-- 検索結果が存在する場合に表示 start -->
-	<!-- 件数を表示 -->
-	<div th:if ="${searchList != null}" >
-		<p th:if="${count}" th:text="'検索結果：' + ${count} + '件'"></p>
-		<!-- 検索結果の一覧を表示 -->
-		<div class="container mt-5 p-lg-5">
-      		<div class="list">社員情報一覧</div>
-      		<table class="table table-bordered">
-        		<thead class="thead-dark">
-          			<tr>
-			            <th scope="col">社員番号</th>
-			            <th scope="col">氏名</th>
-			            <th scope="col">フリガナ</th>
-			            <th scope="col">所属部署</th>
-			            <th scope="col">役職</th>
-			            <th scope="col">連絡先</th>
-			            <th scope="col">メールアドレス</th>
-			            <th scope="col">入社日</th>
-			          </tr>
-			     </thead>
-			     <tbody>
-			          <tr th:each="searchList : ${searchList}" th:object ="${searchList}">
-			          	<td class="empId" th:text="${searchList.empId}"></td>
-			            <td class="empName" th:text="${searchList.empName}"></td>
-			            <td class="empKana" th:text="${searchList.empKana}"></td>
-			            <td class="affi" th:text="${searchList.affi}"></td>
-			            <td class="empTitle" th:text="${searchList.empTitle}"></td>
-			            <td class="contact" th:text="${searchList.contact}"></td>
-			            <td class="email" th:text="${searchList.email}"></td>
-			          	<td class="dateEmp" th:text="${searchList.dateEmp}"></td>
-			          </tr>
-			     </tbody>
+	<!-- 検索結果の一覧を表示 -->
+	<div class="container" th:if="${searchList != count}">
+		<div class="row">
+			<!-- 件数を表示 -->
+			<div class="title" th:if="${count}" th:text="'検索結果：' + ${count} + '件'"></div>
+			<table class="table table-bordered" id="list">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">社員番号</th>
+						<th scope="col">氏名</th>
+						<th scope="col">フリガナ</th>
+						<th scope="col">所属部署</th>
+						<th scope="col">役職</th>
+						<th scope="col">連絡先</th>
+						<th scope="col">メールアドレス</th>
+						<th scope="col">入社日</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="searchList : ${searchList}" th:object="${searchList}">
+						<td class="empId" th:text="${searchList.empId}"></td>
+						<td class="empName" th:text="${searchList.empName}"></td>
+						<td class="empKana" th:text="${searchList.empKana}"></td>
+						<td class="affi" th:text="${searchList.affi}"></td>
+						<td class="empTitle" th:text="${searchList.empTitle}"></td>
+						<td class="contact" th:text="${searchList.contact}"></td>
+						<td class="email" th:text="${searchList.email}"></td>
+						<td class="dateEmp" th:text="${searchList.dateEmp}"></td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>

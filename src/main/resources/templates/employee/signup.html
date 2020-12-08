@@ -149,11 +149,11 @@
 		</div>
 	</div>
 	<!-- 社員情報登録画面 end -->
-	<!-- フォーム入力チェック JS -->
-	<script type="text/javascript" th:src="@{/js/lib/bs4-form-validation.js}"></script>
+	<!-- フォーム入力チェック js -->
+	<script th:src="@{/js/lib/bs4-form-validation.js}"></script>
 	<script type="text/javascript">
 		let form = new Validation("input-form");
-		// Validation Functions
+		// 項目の内容をチェック
 		form.requireEmpId("empId", [ " " ], []);
 		form.requireEmpName("empName", [ " " ], []);
 		form.requireEmpKana("empKana", [ " " ], []);

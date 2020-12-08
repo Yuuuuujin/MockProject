@@ -310,7 +310,7 @@ class Validation
 				}
 				else
 				{
-					illegalsUsed += " spaces"
+					illegalsUsed += "スペース"
 				}
 			}
 				});
@@ -322,7 +322,7 @@ class Validation
 		}
 		else
 		{
-			return "Cannot use:" + illegalsUsed + ". ";
+			return illegalsUsed + "は入力できません。";
 		}
 	}
 
@@ -359,7 +359,7 @@ class Validation
 		}
 		else
 		{
-			return"半角数字の6桁で入力してください";
+			return"半角数字の6桁で入力してください。";
 		}
 	}
 	// 氏名：全角文字をチェック
@@ -371,7 +371,7 @@ class Validation
 		}
 		else
 		{
-			return"全角文字の2桁以上、16桁以内で入力してください";
+			return"全角文字の2桁以上、16桁以内で入力してください。";
 		}
 	}
 	// フリガナ：全角カナをチェック
@@ -383,7 +383,7 @@ class Validation
 		}
 		else
 		{
-			return"全角カナの4桁以上、24桁以内で入力してください";
+			return"全角カナの4桁以上、24桁以内で入力してください。";
 		}
 	}
 	// 連絡先：半角数字記号をチェック
@@ -395,7 +395,7 @@ class Validation
 		}
 		else
 		{
-			return "半角数字記号の10桁以上、12桁以内の'-'（ハイフン）付きの電話番号形式で入力してください";
+			return "半角数字記号の10桁以上、12桁以内の'-'（ハイフン）付きの電話番号形式で入力してください。";
 		}
 	}
 	// メールアドレス形式をチェック
@@ -407,7 +407,7 @@ class Validation
 		}
 		else
 		{
-			return "メールアドレス形式で入力してください （例：sample123@test.co.jp）";
+			return "メールアドレス形式で入力してください。 （例：sample123@test.co.jp）";
 		}
 	}
 	// 入社日：日付形式をチェック
@@ -419,7 +419,7 @@ class Validation
 		}
 		else
 		{
-			return "半角数字の日付形式(yyyy/mm/dd)で入力してください";
+			return "半角数字の日付形式(yyyy/mm/dd)で入力してください。";
 		}
 	}
 

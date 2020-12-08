@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,35 +108,42 @@ public class SearchController {
 			BindingResult result,
 			Model model) {
 
+		// SearchFormの値をListで取得する
+		List<String> searchKey = new ArrayList<String>();
+
 		// 社員番号
-		String empId = form.getEmpId();
+		searchKey.add(form.getEmpId());
 		// 氏名
-		String empName = form.getEmpName();
+		searchKey.add(form.getEmpName());
 		// フリガナ
-		String empKana = form.getEmpKana();
+		searchKey.add(form.getEmpKana());
 		// 所属部署
-		String affi = form.getAffi();
+		searchKey.add(form.getAffi());
 		// 役職
-		String empTitle = form.getEmpTitle();
+		searchKey.add(form.getEmpTitle());
 		// 連絡先
-		String contact = form.getContact();
+		searchKey.add(form.getContact());
 		// メールアドレス
-		String email = form.getEmail();
+		searchKey.add(form.getEmail());
 		// 入社日
-		String dateEmp = form.getDateEmp();
+		searchKey.add(form.getDateEmp());
 
-
-		if(empId == "" && empName == "" &&
-				empKana == "" && affi == "" &&
-				empTitle == "" && contact == "" &&
-				email == "" && dateEmp == "") {
+		// 検索条件が""もしくはnullかをチェック
+		if(searchKey == null || searchKey.isEmpty()) {
 
 			// エラーメッセージを表示
 			model.addAttribute("error", "検索条件を入力してください");
 
+			// 社員情報検索画面
+			model.addAttribute("title", "社員情報検索画面");
+			// 所属部署セレクタ用のMapをModelに登録
+			model.addAttribute("affi", affi);
+			// 役職セレクタ用のMapをModelに登録
+			model.addAttribute("empTitle", empTitle);
+
 			return "employee/search";
 
-		} else if (result.hasErrors()) {
+		}else if (result.hasErrors()) {
 
 			model.addAttribute("empId", form.getEmpId());
 			model.addAttribute("empName", form.getEmpName());
@@ -146,26 +154,37 @@ public class SearchController {
 			model.addAttribute("email", form.getEmail());
 			model.addAttribute("dateEmp", form.getDateEmp());
 
+			// エラーメッセージを表示
+			model.addAttribute("error", "検索条件を入力してください");
+
+			// 社員情報検索画面
+			model.addAttribute("title", "社員情報検索画面");
+			// 所属部署セレクタ用のMapをModelに登録
+			model.addAttribute("affi", affi);
+			// 役職セレクタ用のMapをModelに登録
+			model.addAttribute("empTitle", empTitle);
+
 			return "employee/search";
 
 		} else {
 
+			// 検索結果をsearchListに詰める
+			List<EmployeeDto> searchList = empService.search(form);
+			// 検索結果searchListをmodelに渡す
+			model.addAttribute("searchList", searchList);
+			// 検索結果の件数を取得する
+			model.addAttribute("count", searchList.size());
 			// 社員情報検索画面
 			model.addAttribute("title", "社員情報検索画面");
+			// 所属部署セレクタ用のMapをModelに登録
+			model.addAttribute("affi", affi);
+			// 役職セレクタ用のMapをModelに登録
+			model.addAttribute("empTitle", empTitle);
 
-	    	List<EmployeeDto> searchList = empService.search(form);
-
-	        // 検索結果Listをmodelに渡す
-	    	model.addAttribute("searchList", searchList);
-	    	//データ件数を取得
-	    	int count = empService.count();
-	    	model.addAttribute("count", count);
-
-	        return "employee/search";
+			return "employee/search";
 
 		}
-
-    }
+	}
 
 	/**
 	 * DataAccessException発生時の処理メソッド

@@ -6,9 +6,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
 /**
- * 社員情報変更画面
+ * 社員情報一覧・社員情報変更 Controller
  * @version 1.0
  * @author YUJIN LEE
  */
@@ -144,7 +146,7 @@ public class EmployeeController {
 	 * 社員情報更新用処理.
 	 */
 	@PostMapping(value = "/edit", params = "update")
-	public String update(@ModelAttribute EmployeeForm form,
+	public String postEmpEdit(@ModelAttribute EmployeeForm form,
 			BindingResult result,
 			Model model) {
 
@@ -192,6 +194,49 @@ public class EmployeeController {
 
 		// 社員情報一覧画面を表示
 		return "redirect:/list";
+	}
+
+	/**
+	 * DataAccessException発生時の処理メソッド
+	 * @param e
+	 * @param model
+	 * @return error
+	 */
+	@ExceptionHandler(DataAccessException.class)
+	public String dataAccessExceptionHandler(DataAccessException e, Model model) {
+
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("error","内部サーバーエラー（DB）：ExceptionHandler");
+
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("message","EmployeeControllerでDataAccessExceptionが発生しました");
+
+		// HTTPのエラーコード（500）をModelに登録
+		model.addAttribute("status",HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return "error";
+	}
+
+	/**
+	 * Exception発生時の処理メソッド
+	 * @param e
+	 * @param model
+	 * @return error
+	 */
+	@ExceptionHandler(Exception.class)
+	public String exceptionHandler(Exception e, Model model) {
+
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("error","内部サーバーエラー：ExceptionHandler");
+
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("message","EmployeeControllerでExceptionが発生しました");
+
+		// HTTPのエラーコード（500）をModelに登録
+		model.addAttribute("status",HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return "error";
+
 	}
 
 }

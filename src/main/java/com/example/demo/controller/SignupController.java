@@ -9,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +19,7 @@ import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
 /**
- * 社員情報登録画面 Controller
+ * 社員情報登録 Controller
  * @version 1.0
  * @author YUJIN LEE
  */
@@ -96,15 +95,15 @@ public class SignupController {
 		// 役職セレクタ用のMapをModelに登録
 		model.addAttribute("empTitle", empTitle);
 
-        // コンテンツ部分に社員情報一覧を表示するための文字列を登録
-        model.addAttribute("contents", "employee/signup :: empList_contents");
-        // 社員情報一覧の生成
-        List<EmployeeDto> empList = empService.selectAll();
-        // Modelに社員情報リストを登録
-        model.addAttribute("empList", empList);
-        // データ件数を取得
-        int count = empService.count();
-        model.addAttribute("empListCnt", count);
+		// コンテンツ部分に社員情報一覧を表示するための文字列を登録
+		model.addAttribute("contents", "employee/signup :: empList_contents");
+		// 社員情報一覧の生成
+		List<EmployeeDto> empList = empService.selectAll();
+		// Modelに社員情報リストを登録
+		model.addAttribute("empList", empList);
+		// データ件数を取得
+		int count = empService.count();
+		model.addAttribute("empListCnt", count);
 
 		return "employee/signup";
 
@@ -113,13 +112,11 @@ public class SignupController {
 	/**
 	 * 社員情報登録画面のPOST用コントローラー
 	 * @param form
-	 * @param bindingResult
 	 * @param model
 	 * @return redirect:/signup
 	 */
 	@PostMapping("/signup")
 	public String postSignUp(@ModelAttribute EmployeeForm form,
-			BindingResult result,
 			Model model) {
 
 		// insert用変数
@@ -157,40 +154,40 @@ public class SignupController {
 
 	}
 
-    /**
-     * DataAccessException発生時の処理メソッド.
-     */
-    @ExceptionHandler(DataAccessException.class)
-    public String dataAccessExceptionHandler(DataAccessException e, Model model) {
+	/**
+	 * DataAccessException発生時の処理メソッド.
+	 */
+	@ExceptionHandler(DataAccessException.class)
+	public String dataAccessExceptionHandler(DataAccessException e, Model model) {
 
-        // 例外クラスのメッセージをModelに登録
-        model.addAttribute("error", "内部サーバーエラー（DB）：ExceptionHandler");
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("error", "内部サーバーエラー（DB）：ExceptionHandler");
 
-        // 例外クラスのメッセージをModelに登録
-        model.addAttribute("message", "SignupControllerでDataAccessExceptionが発生しました");
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("message", "SignupControllerでDataAccessExceptionが発生しました");
 
-        // HTTPのエラーコード（500）をModelに登録
-        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+		// HTTPのエラーコード（500）をModelに登録
+		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
-        return "error";
-    }
+		return "error";
+	}
 
-    /**
-     * Exception発生時の処理メソッド.
-     */
-    @ExceptionHandler(Exception.class)
-    public String exceptionHandler(Exception e, Model model) {
+	/**
+	 * Exception発生時の処理メソッド.
+	 */
+	@ExceptionHandler(Exception.class)
+	public String exceptionHandler(Exception e, Model model) {
 
-        // 例外クラスのメッセージをModelに登録
-        model.addAttribute("error", "内部サーバーエラー：ExceptionHandler");
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("error", "内部サーバーエラー：ExceptionHandler");
 
-        // 例外クラスのメッセージをModelに登録
-        model.addAttribute("message", "SignupControllerでExceptionが発生しました");
+		// 例外クラスのメッセージをModelに登録
+		model.addAttribute("message", "SignupControllerでExceptionが発生しました");
 
-        // HTTPのエラーコード（500）をModelに登録
-        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+		// HTTPのエラーコード（500）をModelに登録
+		model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
-        return "error";
-    }
+		return "error";
+	}
 
 }

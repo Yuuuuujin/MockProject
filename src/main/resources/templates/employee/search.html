@@ -143,7 +143,7 @@
 	<!-- 社員検索画面 end -->
 	<!-- 検索条件が存在しない場合に表示 start -->
 	<div class="container" th:if="${searchList == count}">
-		<div class="alert alert-danger" role="alert" th:text="${error}"></div>
+		<div th:if="${error}" th:text="${error}"></div>
 	</div>
 	<!-- 検索条件が存在しない場合に表示 end -->
 

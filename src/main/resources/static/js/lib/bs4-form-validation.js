@@ -32,16 +32,13 @@ class Validation
 	/*
         社員番号
 	 */
-	requireEmpId(inputId, illegalCharArray, necessaryCharArray)
+	requireEmpId(inputId, illegalCharArray)
 	{
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// 必須項目の作成
-		this.createRequried(input);
-
 		// すべてを簡単にチェックできるように、この入力を入力ログに追加
-		this.inputLog.push(["requireEmpId", inputId, illegalCharArray, necessaryCharArray]);
+		this.inputLog.push(["requireEmpId", inputId, illegalCharArray]);
 
 		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
@@ -61,7 +58,6 @@ class Validation
 		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
-			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.empIdCheck(input);
 			this.showWarning(input, inputId, invalidString);
 			// 検証結果を保持する
@@ -74,16 +70,13 @@ class Validation
 	/*
     	氏名
 	 */
-	requireEmpName(inputId, illegalCharArray, necessaryCharArray)
+	requireEmpName(inputId, illegalCharArray)
 	{
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// 必須項目の作成
-		this.createRequried(input);
-
 		// すべてを簡単にチェックできるように、この入力を入力ログに追加
-		this.inputLog.push(["requireEmpName", inputId, illegalCharArray, necessaryCharArray]);
+		this.inputLog.push(["requireEmpName", inputId, illegalCharArray]);
 
 		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
@@ -103,7 +96,6 @@ class Validation
 		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
-			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.empNameCheck(input);
 			this.showWarning(input, inputId, invalidString);
 			// 検証結果を保持する
@@ -116,36 +108,32 @@ class Validation
 	/*
 		フリガナ
 	 */
-	requireEmpKana(inputId, illegalCharArray, necessaryCharArray)
+	requireEmpKana(inputId, illegalCharArray)
 	{
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// Create requried
-		this.createRequried(input);
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
+		this.inputLog.push(["requireEmpKana", inputId, illegalCharArray]);
 
-		// Add this input to the input log, for easy check alls
-		this.inputLog.push(["requireEmpKana", inputId, illegalCharArray, necessaryCharArray]);
-
-		// Check string for issues while editing
+		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
-			// Append any invalid issues to string when editing
+			// 編集時に無効な問題を文字列に追加します
 			invalidString = "";
 			invalidString += this.illegalCharCheck(input, illegalCharArray);
 			this.showWarning(input, inputId, invalidString);
 		});
 
-		// Enable submit again on an input change
+		// 入力変更時に送信を再度有効にする
 		$(input).on('input', input, () =>
 		{
 			this.submitDisabled(false, this.submitButtonText);
 		});
 
-		// Check string for issues after editing
+		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
-			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.empKanaCheck(input);
 			this.showWarning(input, inputId, invalidString);
 			// 検証結果を保持する
@@ -158,36 +146,32 @@ class Validation
 	/*
 		連絡先
 	 */
-	requireContact(inputId, illegalCharArray, necessaryCharArray)
+	requireContact(inputId, illegalCharArray)
 	{
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// Create requried
-		this.createRequried(input);
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
+		this.inputLog.push(["requireContact", inputId, illegalCharArray]);
 
-		// Add this input to the input log, for easy check alls
-		this.inputLog.push(["requireContact", inputId, illegalCharArray, necessaryCharArray]);
-
-		// Check string for issues while editing
+		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
-			// Append any invalid issues to string when editing
+			// 編集時に無効な問題を文字列に追加します
 			invalidString = "";
 			invalidString += this.illegalCharCheck(input, illegalCharArray);
 			this.showWarning(input, inputId, invalidString);
 		});
 
-		// Enable submit again on an input change
+		// 入力変更時に送信を再度有効にする
 		$(input).on('input', input, () =>
 		{
 			this.submitDisabled(false, this.submitButtonText);
 		});
 
-		// Check string for issues after editing
+		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
-			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.contactCheck(input);
 			this.showWarning(input, inputId, invalidString);
 			// 検証結果を保持する
@@ -200,36 +184,32 @@ class Validation
 	/*
         メールアドレス
 	 */
-	requireEmail(inputId, illegalCharArray, necessaryCharArray)
+	requireEmail(inputId, illegalCharArray)
 	{
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// Create requried *
-		this.createRequried(input);
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
+		this.inputLog.push(["requireEmail", inputId, illegalCharArray]);
 
-		// Add this input to the input log, for easy check alls
-		this.inputLog.push(["requireEmail", inputId, illegalCharArray, necessaryCharArray]);
-
-		// Check string for issues while editing
+		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
-			// Append any invalid issues to string when editing
+			// 編集時に無効な問題を文字列に追加します
 			invalidString = "";
 			invalidString += this.illegalCharCheck(input, illegalCharArray);
 			this.showWarning(input, inputId, invalidString);
 		});
 
-		// Enable submit again on an input change
+		// 入力変更時に送信を再度有効にする
 		$(input).on('input', input, () =>
 		{
 			this.submitDisabled(false, this.submitButtonText);
 		});
 
-		// Check string for issues after editing
+		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
-			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.emailCheck(input);
 			this.showWarning(input, inputId, invalidString);
 			// 検証結果を保持する
@@ -242,36 +222,32 @@ class Validation
 	/*
     	入社日
 	 */
-	requireDateEmp(inputId, illegalCharArray, necessaryCharArray)
+	requireDateEmp(inputId, illegalCharArray)
 	{
 		let input = $("#" + inputId);
 		let invalidString = "";
 
-		// Create requried *
-		this.createRequried(input);
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
+		this.inputLog.push(["requireDateEmp", inputId, illegalCharArray]);
 
-		// Add this input to the input log, for easy check alls
-		this.inputLog.push(["requireDateEmp", inputId, illegalCharArray, necessaryCharArray]);
-
-		// Check string for issues while editing
+		// C編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
-			// Append any invalid issues to string when editing
+			// 編集時に無効な問題を文字列に追加します
 			invalidString = "";
 			invalidString += this.illegalCharCheck(input, illegalCharArray);
 			this.showWarning(input, inputId, invalidString);
 		});
 
-		// Enable submit again on an input change
+		// 入力変更時に送信を再度有効にする
 		$(input).on('input', input, () =>
 		{
 			this.submitDisabled(false, this.submitButtonText);
 		});
 
-		// Check string for issues after editing
+		// 編集後に文字列に問題がないか確認
 		$(input).on('focusout', input, () =>
 		{
-			invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 			invalidString += this.dateEmpCheck(input);
 			this.showWarning(input, inputId, invalidString);
 			// 検証結果を保持する
@@ -282,28 +258,26 @@ class Validation
 	}
 
 	////////////
-	// Checks //
+	//チェック//
 	////////////
 	/*
-        Checks return nothing if there are no issues.
-        If there is a validation issue, a string is returned that explains the issue.
-        The main functions call these depending on their parameters.
-
-        Returns: String containing the error or blank
+		問題がない場合、チェックでは何も返さない。
+		検証の問題がある場合は、問題を説明する文字列が返す。
+		主な関数は、パラメータに応じてこれらを呼び出す。
+        Returns: エラーまたは空白を含む文字列
 	 */
 
-	// Checks if contains unwanted text
+	// 不要なテキストが含まれているかどうかを確認
 	illegalCharCheck(input, illegalCharArray)
 	{
-		// Reset loop stringe
 		let illegalsUsed = "";
-		// loop through each illegal item to check for
+		// 不正な項目を一つ一つ目を通してチェックする
 		$(illegalCharArray).each(function()
 				{
 			if (input.val().indexOf(this) >= 0)
 			{
-				// Append illegal strings to var
-				// check if char is a space
+				// varに不正な文字列を追加する
+				// char がスペースであるかどうかを確認
 				if (!this.trim().length == 0)
 				{
 					illegalsUsed += " " + this;
@@ -315,7 +289,7 @@ class Validation
 			}
 				});
 
-		// Create output based on result of illegals concatination
+		// 不正連結の結果に基づく出力の作成
 		if (illegalsUsed === "")
 		{
 			return "";
@@ -323,30 +297,6 @@ class Validation
 		else
 		{
 			return illegalsUsed + "は入力できません。";
-		}
-	}
-
-	// Check if doesnt contain needed text
-	necessaryCharCheck(input, necessaryCharArray)
-	{
-		let notUsed = "";
-		// loop through each illegal item to check for
-		$(necessaryCharArray).each(function()
-				{
-			if (!(input.val().indexOf(this) >= 0))
-			{
-				notUsed += " " + this;
-			}
-				});
-
-		// Create output based on result of illegals concatination
-		if (notUsed === "")
-		{
-			return "";
-		}
-		else
-		{
-			return "Must contain:" + notUsed + ". ";
 		}
 	}
 
@@ -371,7 +321,7 @@ class Validation
 		}
 		else
 		{
-			return"全角文字の2桁以上、16桁以内で入力してください。";
+			return"全角文字の2桁以上、16桁以下で入力してください。";
 		}
 	}
 	// フリガナ：全角カナをチェック
@@ -383,7 +333,7 @@ class Validation
 		}
 		else
 		{
-			return"全角カナの4桁以上、24桁以内で入力してください。";
+			return"全角カナの4桁以上、24桁以下で入力してください。";
 		}
 	}
 	// 連絡先：半角数字記号をチェック
@@ -395,7 +345,7 @@ class Validation
 		}
 		else
 		{
-			return "半角数字記号の10桁以上、12桁以内の'-'（ハイフン）付きの電話番号形式で入力してください。";
+			return "半角数字記号の10桁以上、13桁以下の'-'（ハイフン）付きの電話番号形式で入力してください。";
 		}
 	}
 	// メールアドレス形式をチェック
@@ -407,13 +357,13 @@ class Validation
 		}
 		else
 		{
-			return "メールアドレス形式で入力してください。 （例：sample123@test.co.jp）";
+			return "半角英数字記号のメールアドレス形式で入力してください。 （例：sample123@test.co.jp）";
 		}
 	}
 	// 入社日：日付形式をチェック
 	dateEmpCheck(input)
 	{
-		if (input.val().match(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/))
+		if (input.val().match(/^\d{4}[\/](0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])$/))
 		{
 			return "";
 		}
@@ -424,15 +374,15 @@ class Validation
 	}
 
 
-	////////////////
-	// Check Alls //
-	////////////////
+	////////////////////
+	// 全てをチェック //
+	////////////////////
 	/*
-        These functions deal with form submission, checking all inputs before allowing submission
+        これらの関数は、フォームの送信を処理し、送信を許可する前にすべての入力をチェックする。
 	 */
 
 
-	// Enable/Disable the submit button, and change its value
+	// [送信] ボタンを有効または無効にし、その値を変更する。
 	submitDisabled(trueFalse, value)
 	{
 		$(this.submitButton).prop('disabled', trueFalse);
@@ -445,24 +395,22 @@ class Validation
 	{
 		$(this.form).submit( (e) =>
 		{
-			// Loop through every input added to object
+			// オブジェクトに追加されたすべての入力をループする。
 			$(this.inputLog).each( (i) =>
 			{
-				// Reset loop variables
+				// ループ変数のリセット
 				let invalidString = "";
 				let invalidCheckString = "";
 				let thisLog = this.inputLog[i];
 
-				// Make block scope elements to help understand which elements in the array are which
+				// ブロックスコープ要素を作成して、Array内のどの要素がどの要素であるかを把握しやすくする。
 				let inputId = thisLog[1];
 				let input = $("#" + inputId);
 				let illegalCharArray = thisLog[4];
-				let necessaryCharArray = thisLog[5];
 
-				// Check for issues
+				// 問題を確認
 				invalidString = "";
 				invalidString += this.illegalCharCheck(input, illegalCharArray);
-				invalidString += this.necessaryCharCheck(input, necessaryCharArray);
 				if (thisLog[0] === "requireEmpId")
 				{
 					invalidString += this.empIdCheck(input);
@@ -488,18 +436,18 @@ class Validation
 					invalidString += this.dateEmpCheck(input);
 				}
 
-				// Display issues
+				// 画面に問題を表示
 				if (invalidString)
 				{
 					this.showWarning(input, inputId, invalidString);
-					this.submitDisabled(true, "Error, please check your form");
+					this.submitDisabled(true, "入力内容を確認してください。");
 					// Stop submission
 					e.preventDefault();
 				}
 				if (invalidCheckString)
 				{
 					this.showWarning(passConfirm, passConfirmId, invalidCheckString);
-					this.submitDisabled(true, "Error, please check your form");
+					this.submitDisabled(true, "入力内容を確認してください。");
 					// Stop submission
 					e.preventDefault();
 				}
@@ -514,16 +462,16 @@ class Validation
 
 
 	////////////////////
-	// Class Updating //
+	// クラスを更新 ////
 	////////////////////
 	/*
         Simplifies redundant class code into a few functions
 	 */
 
-	// Perform restrictions depending on the input
+	// 入力に応じた制限の実行
 	showWarning(input, inputId, invalidString)
 	{
-		// Provide proper styling and feedback
+		// 適切なスタイルとフィードバックを提供する。
 		if (invalidString)
 		{
 			this.generateFeedback(input, inputId, "invalid-feedback", invalidString);
@@ -536,38 +484,38 @@ class Validation
 		}
 	}
 
-	// Adds a valid class to element and removes invalid
+	// 有効なクラスを要素に追加し、無効なクラスを削除する。
 	makeValid(element)
 	{
 		if (!element.hasClass(this.validC))
 		{
 			element.addClass(this.validC);
 		}
-		// Remove invalid class if it exists
+		// 無効なクラスが存在する場合は削除する。
 		if (element.hasClass(this.invalidC))
 		{
 			element.removeClass(this.invalidC);
 		}
 	}
 
-	// Adds a valid class to element and removes invalid
+	// 有効なクラスを要素に追加し、無効なクラスを削除する。
 	removeValid(element)
 	{
-		// Remove invalid class if it exists
+		// 無効なクラスが存在する場合は削除する。
 		if (element.hasClass(this.validC))
 		{
 			element.removeClass(this.validC);
 		}
 	}
 
-	// adds invalid class to element and removes valid class
+	// 要素に無効なクラスを追加し、有効なクラスを削除する。
 	makeInvalid(element)
 	{
 		if (!element.hasClass(this.invalidC))
 		{
 			element.addClass(this.invalidC);
 		}
-		// Remove valid class
+		// 有効なクラスの削除
 		if (element.hasClass(this.validC))
 		{
 			element.removeClass(this.validC);
@@ -576,25 +524,18 @@ class Validation
 
 
 	/////////////////////
-	// Text Generation //
+	// テキストの生成 ///
 	/////////////////////
 	/*
-        Visual output such as errors or *
+        エラーを出力する。
 	 */
-
-	// Create required after text
-	createRequried(input)
-	{
-		$("<span class='text-danger'></span>").insertBefore(input)
-	}
-
-	// Creates responsive tiny text below inputs to inform user of issues
+	// 入力した内容の下にテキストを作成する。
 	generateFeedback(input, inputId, validityClass, prompt)
 	{
-		// Delete feedback if it already exists to make room for new content
+		// 新しいコンテンツを保存するためにフィードバックがすでに存在する場合は削除する。
 		$('#' + inputId + '-feedback').remove();
 
-		// Create feedback element if it does not exist
+		// 存在しない場合はフィードバック要素を作成する。
 		$('<div id="' + inputId + '-feedback" class="' + validityClass + '">' + prompt + '</div>').insertAfter(input);
 	}
 

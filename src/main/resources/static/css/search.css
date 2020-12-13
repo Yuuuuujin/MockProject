@@ -72,8 +72,9 @@ label{
     text-align: center;
 }
 
-.container li{
-    font-size: 14px;
-    text-align: left;
+.alert{
+	font-size: 18px;
+	color: #2e2f30;
+	font-weight: 3px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }

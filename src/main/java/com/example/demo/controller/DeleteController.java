@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/list")
-public class DeleteContoller {
+public class DeleteController {
 
 	private EmployeeService empService;
 
 	@Autowired
-	public DeleteContoller(EmployeeService empService) {
+	public DeleteController(EmployeeService empService) {
 		this.empService = empService;
 	}
 

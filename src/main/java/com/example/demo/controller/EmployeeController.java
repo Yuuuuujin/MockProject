@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.domain.EmployeeForm;
+import com.example.demo.domain.UpdateForm;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 
@@ -110,7 +110,7 @@ public class EmployeeController {
 		// 社員情報を取得
 		EmployeeDto empDto = empService.selectOne(empId);
 		// Modelに登録
-		model.addAttribute("employeeForm", empDto);
+		model.addAttribute("updateForm", empDto);
 		// 社員情報変更画面
 		model.addAttribute("title", "社員情報変更画面");
 		// コンテンツ部分に社員情報を表示するための文字列を登録
@@ -126,7 +126,7 @@ public class EmployeeController {
 
 		// 社員番号のチェック
 		if (empId != null && empId.length() > 0) {
-			EmployeeForm form = new EmployeeForm();
+			UpdateForm form = new UpdateForm();
 
 			// EmployeeDtoクラスをフォームクラスに変換
 			form.setEmpId(empDto.getEmpId());
@@ -150,14 +150,14 @@ public class EmployeeController {
 	 * @param model
 	 * @return redirect:/list
 	 */
-	@PostMapping(value = "/edit", params = "update")
-	public String postEmpEdit(@ModelAttribute EmployeeForm form,
+	@PostMapping(value = "/edit")
+	public String postEmpEdit(@ModelAttribute UpdateForm form,
 			Model model) {
 
 		// EmployeeDtoインスタンスの生成
 		EmployeeDto empDto = new EmployeeDto();
 
-		//フォームクラスをempDtoクラスに変換
+		// フォームクラスをempDtoクラスに変換
 		// 社員番号
 		empDto.setEmpId(form.getEmpId());
 		// 氏名

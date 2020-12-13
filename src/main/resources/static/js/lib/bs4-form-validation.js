@@ -18,7 +18,7 @@ class Validation
 		this.validC = "is-valid";
 		this.invalidC = "is-invalid";
 
-		// チェックに引っかかラなかったら、submitする
+		// チェックに引っかからなかったら、submitする
 		this.checkAll();
 	}
 
@@ -144,6 +144,82 @@ class Validation
 	}
 
 	/*
+		所属部署
+	 */
+	requireAffi(inputId, illegalCharArray)
+	{
+		let input = $("#" + inputId);
+		let invalidString = "";
+
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
+		this.inputLog.push(["requireAffi", inputId, illegalCharArray]);
+
+		// 編集中に文字列に問題がないかどうかを確認
+		$(input).on('input focus', input, () =>
+		{
+			// 編集時に無効な問題を文字列に追加します
+			invalidString = "";
+			invalidString += this.illegalCharCheck(input, illegalCharArray);
+			this.showWarning(input, inputId, invalidString);
+		});
+
+		// 入力変更時に送信を再度有効にする
+		$(input).on('input', input, () =>
+		{
+			this.submitDisabled(false, this.submitButtonText);
+		});
+
+		// 編集後に文字列に問題がないか確認
+		$(input).on('focusout', input, () =>
+		{
+			invalidString += this.affiCheck(input);
+			this.showWarning(input, inputId, invalidString);
+			// 検証結果を保持する
+			this.valid(input);
+		});
+
+		return invalidString;
+	}
+
+	/*
+		役職
+	 */
+	requireEmpTitle(inputId, illegalCharArray)
+	{
+		let input = $("#" + inputId);
+		let invalidString = "";
+
+		// すべてを簡単にチェックできるように、この入力を入力ログに追加
+		this.inputLog.push(["requireEmpTitle", inputId, illegalCharArray]);
+
+		// 編集中に文字列に問題がないかどうかを確認
+		$(input).on('input focus', input, () =>
+		{
+			// 編集時に無効な問題を文字列に追加します
+			invalidString = "";
+			invalidString += this.illegalCharCheck(input, illegalCharArray);
+			this.showWarning(input, inputId, invalidString);
+		});
+
+		// 入力変更時に送信を再度有効にする
+		$(input).on('input', input, () =>
+		{
+			this.submitDisabled(false, this.submitButtonText);
+		});
+
+		// 編集後に文字列に問題がないか確認
+		$(input).on('focusout', input, () =>
+		{
+			invalidString += this.empTitleCheck(input);
+			this.showWarning(input, inputId, invalidString);
+			// 検証結果を保持する
+			this.valid(input);
+		});
+
+		return invalidString;
+	}
+
+	/*
 		連絡先
 	 */
 	requireContact(inputId, illegalCharArray)
@@ -230,7 +306,7 @@ class Validation
 		// すべてを簡単にチェックできるように、この入力を入力ログに追加
 		this.inputLog.push(["requireDateEmp", inputId, illegalCharArray]);
 
-		// C編集中に文字列に問題がないかどうかを確認
+		// 編集中に文字列に問題がないかどうかを確認
 		$(input).on('input focus', input, () =>
 		{
 			// 編集時に無効な問題を文字列に追加します
@@ -296,7 +372,7 @@ class Validation
 		}
 		else
 		{
-			return illegalsUsed + "は入力できません。";
+			return illegalsUsed + "は入力できません。" + "</br>";
 		}
 	}
 
@@ -336,6 +412,30 @@ class Validation
 			return"全角カナの4桁以上、24桁以下で入力してください。";
 		}
 	}
+	// 所属部署：選択をチェック
+	affiCheck(input)
+	{
+		if(input.val() != "")
+		{
+			return "";
+		}
+		else
+		{
+			return"所属部署を選択してください。";
+		}
+	}
+	// 役職：選択をチェック
+	empTitleCheck(input)
+	{
+		if(input.val() != "")
+		{
+			return "";
+		}
+		else
+		{
+			return"役職を選択してください。";
+		}
+	}
 	// 連絡先：半角数字記号をチェック
 	contactCheck(input)
 	{
@@ -373,7 +473,6 @@ class Validation
 		}
 	}
 
-
 	////////////////////
 	// 全てをチェック //
 	////////////////////
@@ -400,7 +499,6 @@ class Validation
 			{
 				// ループ変数のリセット
 				let invalidString = "";
-				let invalidCheckString = "";
 				let thisLog = this.inputLog[i];
 
 				// ブロックスコープ要素を作成して、Array内のどの要素がどの要素であるかを把握しやすくする。
@@ -423,9 +521,17 @@ class Validation
 				{
 					invalidString += this.empKanaCheck(input);
 				}
+				if (thisLog[0] === "requireAffi")
+				{
+					invalidString += this.affiCheck(input);
+				}
+				if (thisLog[0] === "requireEmpTitle")
+				{
+					invalidString += this.empTitleCheck(input);
+				}
 				if (thisLog[0] === "requireContact")
 				{
-					invalidString += this.contact(input);
+					invalidString += this.contactCheck(input);
 				}
 				if (thisLog[0] === "requireEmail")
 				{
@@ -444,14 +550,6 @@ class Validation
 					// Stop submission
 					e.preventDefault();
 				}
-				if (invalidCheckString)
-				{
-					this.showWarning(passConfirm, passConfirmId, invalidCheckString);
-					this.submitDisabled(true, "入力内容を確認してください。");
-					// Stop submission
-					e.preventDefault();
-				}
-
 
 			});
 
@@ -465,7 +563,7 @@ class Validation
 	// クラスを更新 ////
 	////////////////////
 	/*
-        Simplifies redundant class code into a few functions
+        重複クラスコードをいくつかの関数で簡素化する
 	 */
 
 	// 入力に応じた制限の実行
@@ -538,8 +636,6 @@ class Validation
 		// 存在しない場合はフィードバック要素を作成する。
 		$('<div id="' + inputId + '-feedback" class="' + validityClass + '">' + prompt + '</div>').insertAfter(input);
 	}
-
-
 
 }
 

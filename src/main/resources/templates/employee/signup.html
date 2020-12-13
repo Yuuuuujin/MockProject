@@ -31,7 +31,7 @@
 	<div class="col-sm-3">
 		<div class="container mt-5 p-lg-5">
 			<div class="list">社員情報登録</div>
-			<form id="input-form" method="post" th:action="@{/signup}" th:object="${employeeForm}">
+			<form id="check-form" method="post" th:action="@{/signup}" th:object="${employeeForm}">
 				<table class="table table-bordered">
 					<tbody>
 						<!-- 社員番号入力 -->
@@ -77,7 +77,7 @@
 							</th>
 							<td>
 								<div class="form-group">
-									<select id="affi" name="affi" class="form-control" th:name="affi" required>
+									<select id="affi" name="affi" class="form-control" th:name="affi">
 										<option value="">--所属部署を選択してください--</option>
 										<option th:each="affi : ${affi}" th:value="${affi?.key}"
 											th:text="${affi?.value}" th:field="${affi}"></option>
@@ -92,7 +92,7 @@
 							</th>
 							<td>
 								<div class="form-group">
-									<select id="empTitle" name="empTitle" class="form-control" th:name="empTitle" required>
+									<select id="empTitle" name="empTitle" class="form-control" th:name="empTitle">
 										<option value="">--役職を選択してください--</option>
 										<option th:each="empTitle : ${empTitle}"
 											th:value="${empTitle?.key}" th:text="${empTitle?.value}"
@@ -152,11 +152,13 @@
 	<!-- フォーム入力チェック js -->
 	<script th:src="@{/js/lib/bs4-form-validation.js}"></script>
 	<script type="text/javascript">
-		let form = new Validation("input-form");
+		let form = new Validation("check-form");
 		// 項目の内容をチェック
 		form.requireEmpId("empId", [ " " ], []);
 		form.requireEmpName("empName", [ " " ], []);
 		form.requireEmpKana("empKana", [ " " ], []);
+		form.requireAffi("affi", [ " " ], []);
+		form.requireEmpTitle("empTitle", [ " " ], []);
 		form.requireContact("contact", [ " " ], []);
 		form.requireEmail("email", [ " " ], []);
 		form.requireDateEmp("dateEmp", [ " " ], []);

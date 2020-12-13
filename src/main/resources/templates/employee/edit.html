@@ -32,7 +32,7 @@
 			<div class="container mt-5 p-lg-5">
 				<div class="list">社員情報変更</div>
 				<form class="input-form" method="post" th:action="@{/edit}"
-					th:object="${employeeForm}">
+					th:object="${updateForm}">
 					<table class="table table-bordered">
 						<tbody>
 							<!-- 社員番号入力 -->
@@ -78,7 +78,7 @@
 								</th>
 								<td>
 									<div class="form-group">
-										<select id="affi" name="affi" class="form-control" th:field="*{affi}" required>
+										<select id="affi" name="affi" class="form-control" th:field="*{affi}">
 											<option value="">--所属部署を選択してください--</option>
 											<option th:each="affi : ${affi}"
 												th:value="${affi?.key}"
@@ -95,7 +95,7 @@
 								</th>
 								<td>
 									<div class="form-group">
-										<select id="empTitle" name="empTitle" class="form-control" th:field="*{empTitle}" required>
+										<select id="empTitle" name="empTitle" class="form-control" th:field="*{empTitle}">
 											<option value="">--役職を選択してください--</option>
 											<option th:each="empTitle : ${empTitle}"
 												th:value="${empTitle?.key}"
@@ -146,8 +146,8 @@
 					<!--ボタンブロック-->
 					<div class="form-group row">
 						<div class="col-sm-12">
+							<button type="submit" class="btn btn-primary">更新</button>
 							<button type="button" class="btn btn-secondary"onClick="history.back()">キャンセル</button>
-							<button type="submit" class="btn btn-primary" name="update">更新</button>
 						</div>
 					</div>
 				</form>
@@ -162,6 +162,8 @@
 		// 項目の内容をチェック
 		form.requireEmpName("empName", [ " " ], []);
 		form.requireEmpKana("empKana", [ " " ], []);
+		form.requireAffi("affi", [ " " ], []);
+		form.requireEmpTitle("empTitle", [ " " ], []);
 		form.requireContact("contact", [ " " ], []);
 		form.requireEmail("email", [ " " ], []);
 	</script>

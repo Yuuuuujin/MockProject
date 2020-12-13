@@ -57,36 +57,3 @@
     background-color: #fff;
     color: black;
 }
-
-input,
-select {
-  &:valid {
-    border: 1px solid green;
-  }
-  &:invalid {
-    border: 1px solid red;
-  }
-}
-
-.modal-open .modal{
-    overflow: hidden;
-    overflow-y: overlay;
-}
-
-.modal-header .modal-title{
-    color: black;
-    text-align: left;
-    font-size: 25px;
-    font-weight: bold;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
-.modal-body{
-    position: relative;
-    flex: 1 1 auto;
-    padding: 0.1rem;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 650px;
-}
-

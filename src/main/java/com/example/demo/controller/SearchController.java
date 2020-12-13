@@ -10,7 +10,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -112,54 +111,25 @@ public class SearchController {
 	 */
 	@PostMapping
 	public String postSearch(@ModelAttribute SearchForm form,
-			BindingResult result,
 			Model model) {
 
-		// SearchFormの値をListで取得する
-		List<String> searchKey = new ArrayList<String>();
+		List<String> searchKeys = new ArrayList<>();
+		searchKeys.add(form.getEmpId());
+		searchKeys.add(form.getEmpName());
+		searchKeys.add(form.getEmpKana());
+		searchKeys.add(form.getAffi());
+		searchKeys.add(form.getEmpTitle());
+		searchKeys.add(form.getContact());
+		searchKeys.add(form.getEmail());
+		searchKeys.add(form.getDateEmp());
 
-		// 社員番号
-		searchKey.add(form.getEmpId());
-		// 氏名
-		searchKey.add(form.getEmpName());
-		// フリガナ
-		searchKey.add(form.getEmpKana());
-		// 所属部署
-		searchKey.add(form.getAffi());
-		// 役職
-		searchKey.add(form.getEmpTitle());
-		// 連絡先
-		searchKey.add(form.getContact());
-		// メールアドレス
-		searchKey.add(form.getEmail());
-		// 入社日
-		searchKey.add(form.getDateEmp());
+		StringBuilder builder = new StringBuilder();
 
-		// 検索条件が""もしくはnullかをチェック
-		if(searchKey == null || searchKey.isEmpty()) {
+		for(String value : searchKeys) {
+			builder.append(value);
+		}
 
-			// エラーメッセージを表示
-			model.addAttribute("error", "検索条件を入力してください");
-
-			// 社員情報検索画面
-			model.addAttribute("title", "社員情報検索画面");
-			// 所属部署セレクタ用のMapをModelに登録
-			model.addAttribute("affi", affi);
-			// 役職セレクタ用のMapをModelに登録
-			model.addAttribute("empTitle", empTitle);
-
-			return "employee/search";
-
-		}else if (result.hasErrors()) {
-
-			model.addAttribute("empId", form.getEmpId());
-			model.addAttribute("empName", form.getEmpName());
-			model.addAttribute("empKana",form.getEmpKana());
-			model.addAttribute("affi", form.getAffi());
-			model.addAttribute("empTitle", form.getEmpTitle());
-			model.addAttribute("contact", form.getContact());
-			model.addAttribute("email", form.getEmail());
-			model.addAttribute("dateEmp", form.getDateEmp());
+		if(builder.toString().isEmpty() || builder.toString() == null) {
 
 			// エラーメッセージを表示
 			model.addAttribute("error", "検索条件を入力してください");

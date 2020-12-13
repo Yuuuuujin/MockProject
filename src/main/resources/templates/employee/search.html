@@ -36,7 +36,7 @@
 					<div class="card-title">検索条件</div>
 				</div>
 				<div class="container-fluid">
-					<form method="post" th:action="@{/search}" th:object="${searchForm}">
+					<form class="input-form" method="post" th:action="@{/search}" th:object="${searchForm}">
 						<div class="row">
 							<!-- 社員番号入力 -->
 							<div class="col-8 col-md-6">
@@ -141,9 +141,27 @@
 		</div>
 	</div>
 	<!-- 社員検索画面 end -->
+	<!-- フォーム入力チェック js -->
+	<script th:src="@{/js/lib/bs4-form-validation.js}"></script>
+	<script type="text/javascript">
+		let form = new Validation("input-form");
+		// 項目の内容をチェック
+		form.requireEmpId("empId", [ " " ], []);
+		form.requireEmpName("empName", [ " " ], []);
+		form.requireEmpKana("empKana", [ " " ], []);
+		form.requireAffi("affi", [ " " ], []);
+		form.requireEmpTitle("empTitle", [ " " ], []);
+		form.requireContact("contact", [ " " ], []);
+		form.requireEmail("email", [ " " ], []);
+		form.requireDateEmp("dateEmp", [ " " ], []);
+	</script>
 	<!-- 検索条件が存在しない場合に表示 start -->
 	<div class="container" th:if="${searchList == count}">
-		<div th:if="${error}" th:text="${error}"></div>
+		<div class="row">
+			<div class="col-12">
+				<div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+			</div>
+		</div>
 	</div>
 	<!-- 検索条件が存在しない場合に表示 end -->
 
